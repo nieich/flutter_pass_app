@@ -10,5 +10,22 @@
   "cancel": "Cancel",
   "@cancel": {
     "description": "Cancel button text"
+  },
+  "addPassFromFile": "Add Pass from File",
+  "@addPassFromFile": {
+    "description": "Tooltip for the add pass button"
+  },
+  "pickedFile": "Picked file: {fileName}",
+  "@pickedFile": {
+    "description": "Snackbar message after picking a file",
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidFileType": "Invalid file type. Please select a .pkpass file.",
+  "@invalidFileType": {
+    "description": "Error message for invalid file type selection"
   }
 }

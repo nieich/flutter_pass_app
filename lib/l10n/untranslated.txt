@@ -1,1 +1,7 @@
-{}
+{
+  "de": [
+    "addPassFromFile",
+    "pickedFile",
+    "invalidFileType"
+  ]
+}

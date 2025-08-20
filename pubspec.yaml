@@ -41,6 +41,8 @@ dependencies:
 
   go_router:
 
+  file_picker:
+
   shared_preferences:
 
   logging:

@@ -115,6 +115,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cancel'**
   String get cancel;
+
+  /// Tooltip for the add pass button
+  ///
+  /// In en, this message translates to:
+  /// **'Add Pass from File'**
+  String get addPassFromFile;
+
+  /// Snackbar message after picking a file
+  ///
+  /// In en, this message translates to:
+  /// **'Picked file: {fileName}'**
+  String pickedFile(String fileName);
+
+  /// Error message for invalid file type selection
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid file type. Please select a .pkpass file.'**
+  String get invalidFileType;
 }
 
 class _AppLocalizationsDelegate

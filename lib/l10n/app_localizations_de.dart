@@ -16,4 +16,16 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get cancel => 'Abbrechen';
+
+  @override
+  String get addPassFromFile => 'Add Pass from File';
+
+  @override
+  String pickedFile(String fileName) {
+    return 'Picked file: $fileName';
+  }
+
+  @override
+  String get invalidFileType =>
+      'Invalid file type. Please select a .pkpass file.';
 }

@@ -1,10 +1,18 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pass_app/l10n/app_localizations.dart';
 import 'package:flutter_pass_app/navigation/routes.dart';
 import 'package:go_router/go_router.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  String? _pickedFileName;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +34,11 @@ class HomePage extends StatelessWidget {
       ),
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: _buildBody(context),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _pickFile,
+        tooltip: AppLocalizations.of(context)!.addPassFromFile,
+        child: const Icon(Icons.add),
+      ),
     );
   }
 
@@ -33,10 +46,33 @@ class HomePage extends StatelessWidget {
     // Using ListView.builder is more efficient for long lists.
     return ListView.builder(
       itemCount: 5, // Example count
-      itemBuilder: (context, index) {
-        return _buildPassCard(context);
-      },
+      itemBuilder: (context, index) => _buildPassCard(context),
     );
+  }
+
+  Future<void> _pickFile() async {
+    final l10n = AppLocalizations.of(context)!;
+    // Using FileType.any is more robust for custom file types like .pkpass,
+    // as platform-native pickers may not support filtering by this extension.
+    FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.any);
+
+    if (result != null) {
+      final file = result.files.single;
+      // Manually check the file extension.
+      if (file.extension?.toLowerCase() != 'pkpass') {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.invalidFileType)));
+        }
+        return;
+      }
+
+      setState(() {
+        _pickedFileName = file.name;
+      });
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.pickedFile(_pickedFileName!))));
+      }
+    }
   }
 
   Widget _buildPassCard(BuildContext context) {
