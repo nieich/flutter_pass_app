@@ -1,0 +1,14 @@
+{
+  "title": "Passes",
+  "@title": {
+    "description": "Titel der app"
+  },
+  "ok": "OK",
+  "@ok": {
+    "description": "OK Schaltflächentext"
+  },
+  "cancel": "Abbrechen",
+  "@cancel": {
+    "description": "Abbrechen Schaltflächentext"
+  }
+}

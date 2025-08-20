@@ -1,0 +1,14 @@
+{
+  "title": "Passes",
+  "@title": {
+    "description": "title of app"
+  },
+  "ok": "OK",
+  "@ok": {
+    "description": "OK button text"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button text"
+  }
+}
