@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pass_app/l10n/app_localizations.dart';
 import 'package:flutter_pass_app/navigation/router.dart';
+import 'package:flutter_pass_app/services/pass_service.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:logging/logging.dart';
 
@@ -15,6 +16,8 @@ Future<void> main() async {
   });
 
   await initializeDateFormatting('de', null);
+
+  await PassService.instance.initialize();
 
   runApp(const MyApp());
 }

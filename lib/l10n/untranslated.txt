@@ -2,6 +2,8 @@
   "de": [
     "addPassFromFile",
     "pickedFile",
-    "invalidFileType"
+    "invalidFileType",
+    "noPasses",
+    "passParseError"
   ]
 }

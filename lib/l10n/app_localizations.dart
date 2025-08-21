@@ -133,6 +133,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Invalid file type. Please select a .pkpass file.'**
   String get invalidFileType;
+
+  /// Message if no passes are available
+  ///
+  /// In en, this message translates to:
+  /// **'No Passes'**
+  String get noPasses;
+
+  /// Error message for failed pass parsing
+  ///
+  /// In en, this message translates to:
+  /// **'Error parsing pass'**
+  String get passParseError;
 }
 
 class _AppLocalizationsDelegate

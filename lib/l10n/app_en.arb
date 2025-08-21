@@ -1,4 +1,5 @@
 {
+  "@@locale": "en",
   "title": "Passes",
   "@title": {
     "description": "title of app"
@@ -27,5 +28,13 @@
   "invalidFileType": "Invalid file type. Please select a .pkpass file.",
   "@invalidFileType": {
     "description": "Error message for invalid file type selection"
+  },
+  "noPasses":"No Passes",
+  "@noPasses":{
+    "description": "Message if no passes are available"
+  },
+  "passParseError": "Error parsing pass",
+  "@passParseError": {
+    "description": "Error message for failed pass parsing"
   }
 }

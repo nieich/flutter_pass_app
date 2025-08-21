@@ -28,4 +28,10 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get invalidFileType =>
       'Invalid file type. Please select a .pkpass file.';
+
+  @override
+  String get noPasses => 'No Passes';
+
+  @override
+  String get passParseError => 'Error parsing pass';
 }
