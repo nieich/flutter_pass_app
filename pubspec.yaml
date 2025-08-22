@@ -41,6 +41,8 @@ dependencies:
 
   path_provider:
 
+  path:
+
   shared_preferences:
 
   logging:

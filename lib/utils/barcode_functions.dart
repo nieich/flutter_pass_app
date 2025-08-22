@@ -17,7 +17,7 @@ bw.BarcodeWidget buildBarCodeImage(Barcode barcode, {double size = 200}) {
   return bw.BarcodeWidget(barcode: bw.Barcode.qrCode(), data: barcode.message, width: size, height: size);
 }
 
-Dialog BuildBarCodeDialog(PkPass pass, BuildContext context) {
+Dialog buildBarCodeDialog(PkPass pass, BuildContext context) {
   // Use MediaQuery to make the dialog size relative to the screen size.
   final screenWidth = MediaQuery.of(context).size.width;
   // Define paddings and margins

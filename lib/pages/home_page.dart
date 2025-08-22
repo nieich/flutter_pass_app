@@ -78,23 +78,23 @@ class _HomePageState extends State<HomePage> {
     final l10n = AppLocalizations.of(context)!;
     setState(() => _isLoading = true);
 
+    ScaffoldMessengerState messenger = ScaffoldMessenger.of(context);
+
     try {
       final importedPass = await _passService.importPass();
 
       if (importedPass != null) {
         if (!mounted) return;
         setState(() => _passes = _passService.passes);
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(l10n.pickedFile(importedPass.pass.description))));
+        messenger.showSnackBar(SnackBar(content: Text(l10n.pickedFile(importedPass.pass.description))));
       }
       // If fileName is null, the user cancelled the file picker. No action needed.
     } on FormatException {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.invalidFileType)));
+      messenger.showSnackBar(SnackBar(content: Text(l10n.invalidFileType)));
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.passParseError)));
+      messenger.showSnackBar(SnackBar(content: Text(l10n.passParseError)));
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -117,7 +117,7 @@ class _HomePageState extends State<HomePage> {
             showDialog(
               context: context,
               builder: (BuildContext context) {
-                return BuildBarCodeDialog(pass, context);
+                return buildBarCodeDialog(pass, context);
               },
             );
           },

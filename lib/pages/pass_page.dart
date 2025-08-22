@@ -121,7 +121,7 @@ class PassPage extends StatelessWidget {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return BuildBarCodeDialog(pass, context);
+                      return buildBarCodeDialog(pass, context);
                     },
                   );
                 },
