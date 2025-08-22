@@ -105,14 +105,32 @@ class _HomePageState extends State<HomePage> {
       margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
       child: ListTile(
-        leading: Icon(Icons.airplane_ticket, color: Theme.of(context).colorScheme.primary, size: 40),
-        title: Text(pass.pass.logoText ?? 'Pass', style: const TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: Text(pass.pass.description),
+        leading: _getPassCardIcon(pass),
+        title: Text(
+          pass.pass.eventTicket?.primaryFields?.first.label ?? 'Pass',
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        subtitle: Text(pass.pass.eventTicket?.primaryFields?.first.value.toString() ?? ''),
         trailing: const Icon(Icons.qr_code_scanner),
         onTap: () {
-          // TODO: Navigate to pass detail page
+          context.push('${Routes.pathPass}/${pass.pass.serialNumber}');
         },
       ),
     );
+  }
+
+  Icon _getPassCardIcon(PkPass pass) {
+    switch (pass.type) {
+      case PassType.boardingPass:
+        return const Icon(Icons.airplane_ticket, color: Colors.blue, size: 40);
+      case PassType.coupon:
+        return const Icon(Icons.card_giftcard, color: Colors.green, size: 40);
+      case PassType.eventTicket:
+        return const Icon(Icons.event, color: Colors.orange, size: 40);
+      case PassType.storeCard:
+        return const Icon(Icons.store, color: Colors.red, size: 40);
+      case PassType.generic:
+        return const Icon(Icons.credit_card, color: Colors.purple, size: 40);
+    }
   }
 }

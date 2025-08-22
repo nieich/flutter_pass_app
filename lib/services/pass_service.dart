@@ -69,6 +69,10 @@ class PassService {
     return importedPass;
   }
 
+  PkPass findPass(String serialNumber) {
+    return _passes.firstWhere((pass) => pass.pass.serialNumber == serialNumber);
+  }
+
   /// Removes a pass from the list by its serial number.
   ///
   /// Returns `true` if a pass was removed, `false` otherwise.

@@ -46,7 +46,9 @@ dependencies:
   logging:
 
   passkit:
-  passkit_ui:
+  passkit_ui:  
+
+  barcode_widget:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
