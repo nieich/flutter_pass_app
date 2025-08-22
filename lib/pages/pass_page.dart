@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pass_app/l10n/app_localizations.dart';
 import 'package:flutter_pass_app/services/pass_service.dart';
+import 'package:flutter_pass_app/utils/barcode_functions.dart';
 import 'package:intl/intl.dart';
 import 'package:passkit/passkit.dart';
 import 'package:passkit_ui/passkit_ui.dart';
-import 'package:barcode_widget/barcode_widget.dart' as bw;
 
 class PassPage extends StatelessWidget {
   final String? serialNumber;
@@ -115,7 +115,19 @@ class PassPage extends StatelessWidget {
             height: 160,
             width: 160,
             decoration: BoxDecoration(color: Colors.white),
-            child: Center(child: _buildBarCodeImage(pass.pass.barcodes!.first)),
+            child: Center(
+              child: GestureDetector(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return BuildBarCodeDialog(pass, context);
+                    },
+                  );
+                },
+                child: buildBarCodeImage(pass.pass.barcodes!.first),
+              ),
+            ),
           ),
           const SizedBox(height: 10),
           Text(
@@ -126,20 +138,5 @@ class PassPage extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  bw.BarcodeWidget _buildBarCodeImage(Barcode barcode) {
-    switch (barcode.format) {
-      case PkPassBarcodeType.qr:
-        return bw.BarcodeWidget(barcode: bw.Barcode.qrCode(), data: barcode.message, width: 200, height: 200);
-      case PkPassBarcodeType.code128:
-        return bw.BarcodeWidget(barcode: bw.Barcode.code128(), data: barcode.message, width: 200, height: 200);
-      case PkPassBarcodeType.pdf417:
-        return bw.BarcodeWidget(barcode: bw.Barcode.pdf417(), data: barcode.message, width: 200, height: 200);
-      case PkPassBarcodeType.aztec:
-        bw.BarcodeWidget(barcode: bw.Barcode.aztec(), data: barcode.message, width: 200, height: 200);
-    }
-
-    return bw.BarcodeWidget(barcode: bw.Barcode.qrCode(), data: barcode.message, width: 200, height: 200);
   }
 }

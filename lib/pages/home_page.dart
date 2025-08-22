@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pass_app/l10n/app_localizations.dart';
 import 'package:flutter_pass_app/navigation/routes.dart';
 import 'package:flutter_pass_app/services/pass_service.dart';
+import 'package:flutter_pass_app/utils/barcode_functions.dart';
 import 'package:go_router/go_router.dart';
 import 'package:passkit/passkit.dart';
 
@@ -111,7 +112,17 @@ class _HomePageState extends State<HomePage> {
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         subtitle: Text(pass.pass.eventTicket?.primaryFields?.first.value.toString() ?? ''),
-        trailing: const Icon(Icons.qr_code_scanner),
+        trailing: GestureDetector(
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return BuildBarCodeDialog(pass, context);
+              },
+            );
+          },
+          child: const Icon(Icons.qr_code_scanner),
+        ),
         onTap: () {
           context.push('${Routes.pathPass}/${pass.pass.serialNumber}');
         },
