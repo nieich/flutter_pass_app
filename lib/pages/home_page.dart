@@ -3,6 +3,7 @@ import 'package:flutter_pass_app/l10n/app_localizations.dart';
 import 'package:flutter_pass_app/navigation/routes.dart';
 import 'package:flutter_pass_app/services/pass_service.dart';
 import 'package:flutter_pass_app/utils/barcode_functions.dart';
+import 'package:flutter_pass_app/utils/pass_functions.dart';
 import 'package:go_router/go_router.dart';
 import 'package:passkit/passkit.dart';
 
@@ -106,7 +107,7 @@ class _HomePageState extends State<HomePage> {
       margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
       child: ListTile(
-        leading: _getPassCardIcon(pass),
+        leading: getPassCardIcon(pass),
         title: Text(
           pass.pass.eventTicket?.primaryFields?.first.label ?? 'Pass',
           style: const TextStyle(fontWeight: FontWeight.bold),
@@ -130,18 +131,5 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Icon _getPassCardIcon(PkPass pass) {
-    switch (pass.type) {
-      case PassType.boardingPass:
-        return const Icon(Icons.airplane_ticket, color: Colors.blue, size: 40);
-      case PassType.coupon:
-        return const Icon(Icons.card_giftcard, color: Colors.green, size: 40);
-      case PassType.eventTicket:
-        return const Icon(Icons.event, color: Colors.orange, size: 40);
-      case PassType.storeCard:
-        return const Icon(Icons.store, color: Colors.red, size: 40);
-      case PassType.generic:
-        return const Icon(Icons.credit_card, color: Colors.purple, size: 40);
-    }
-  }
+
 }

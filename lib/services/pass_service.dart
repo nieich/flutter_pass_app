@@ -38,7 +38,8 @@ class PassService {
     for (var entry in passBytesMap.entries) {
       try {
         // Use the parser to convert the raw bytes into a PkPass model.
-        final pass = PkPass.fromBytes(entry.value);
+        //  skipSignatureVerification: might be needed when pass is older
+        final pass = PkPass.fromBytes(entry.value, skipSignatureVerification: true);
         loadedPasses.add(pass);
       } catch (e, stackTrace) {
         // Log the error for debugging purposes.
