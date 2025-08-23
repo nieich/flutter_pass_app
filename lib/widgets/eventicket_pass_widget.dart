@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pass_app/l10n/app_localizations.dart';
+import 'package:flutter_pass_app/navigation/routes.dart';
 import 'package:flutter_pass_app/utils/barcode_functions.dart';
+import 'package:flutter_pass_app/utils/pass_functions.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:passkit/passkit.dart';
 import 'package:passkit_ui/passkit_ui.dart';
@@ -91,8 +94,7 @@ Widget eventTicketWidget(PkPass pass, BuildContext context) {
         const Divider(color: Colors.black26, indent: 20, endIndent: 20),
         const SizedBox(height: 20),
 
-        // This is a placeholder for the QR code image.
-        // In a real application, you would use a package like 'qr_flutter' to generate a QR code.
+        //QR Code
         Container(
           height: 160,
           width: 160,
@@ -118,6 +120,36 @@ Widget eventTicketWidget(PkPass pass, BuildContext context) {
         ),
         const SizedBox(height: 40),
       ],
+    ),
+  );
+}
+
+Widget buildEventTicketCard(PkPass pass, BuildContext context) {
+  return Card(
+    elevation: 4.0,
+    margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+    child: ListTile(
+      leading: getPassCardIcon(pass),
+      title: Text(
+        pass.pass.eventTicket?.primaryFields?.first.label ?? 'Pass',
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ),
+      subtitle: Text(pass.pass.eventTicket?.primaryFields?.first.value.toString() ?? ''),
+      trailing: GestureDetector(
+        onTap: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return buildBarCodeDialog(pass, context);
+            },
+          );
+        },
+        child: const Icon(Icons.qr_code_scanner),
+      ),
+      onTap: () {
+        context.push('${Routes.pathPass}/${pass.pass.serialNumber}');
+      },
     ),
   );
 }

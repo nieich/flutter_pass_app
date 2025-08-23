@@ -39,3 +39,18 @@ Icon getPassCardIcon(PkPass pass) {
       return const Icon(Icons.credit_card, color: Colors.purple, size: 40);
   }
 }
+
+Widget buildPassCard(PkPass pass, BuildContext context) {
+  switch (pass.type) {
+    case PassType.boardingPass:
+      return buildBoardingPassCard(pass, context);
+    case PassType.coupon:
+      return buildCouponCard(pass, context);
+    case PassType.eventTicket:
+      return buildEventTicketCard(pass, context);
+    case PassType.storeCard:
+      return buildStoreCardCard(pass, context);
+    case PassType.generic:
+      return buildGenericPassCard(pass, context);
+  }
+}

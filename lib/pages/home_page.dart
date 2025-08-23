@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
 
     return ListView.builder(
       itemCount: _passes.length,
-      itemBuilder: (context, index) => _buildPassCard(context, _passes[index]),
+      itemBuilder: (context, index) => buildPassCard(_passes[index], context),
     );
   }
 
@@ -100,36 +100,4 @@ class _HomePageState extends State<HomePage> {
       if (mounted) setState(() => _isLoading = false);
     }
   }
-
-  Widget _buildPassCard(BuildContext context, PkPass pass) {
-    return Card(
-      elevation: 4.0,
-      margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-      child: ListTile(
-        leading: getPassCardIcon(pass),
-        title: Text(
-          pass.pass.eventTicket?.primaryFields?.first.label ?? 'Pass',
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        subtitle: Text(pass.pass.eventTicket?.primaryFields?.first.value.toString() ?? ''),
-        trailing: GestureDetector(
-          onTap: () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return buildBarCodeDialog(pass, context);
-              },
-            );
-          },
-          child: const Icon(Icons.qr_code_scanner),
-        ),
-        onTap: () {
-          context.push('${Routes.pathPass}/${pass.pass.serialNumber}');
-        },
-      ),
-    );
-  }
-
-
 }
