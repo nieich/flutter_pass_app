@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pass_app/Themes/base_pass_theme.dart';
+import 'package:flutter_pass_app/Themes/boarding_pass_theme.dart';
+import 'package:flutter_pass_app/Themes/coupon_pass_theme.dart';
+import 'package:flutter_pass_app/Themes/eventicket_pass_theme.dart';
+import 'package:flutter_pass_app/Themes/generic_pass_theme.dart';
+import 'package:flutter_pass_app/Themes/storecard_pass_theme.dart';
 import 'package:flutter_pass_app/l10n/app_localizations.dart';
 import 'package:flutter_pass_app/utils/barcode_functions.dart';
+import 'package:flutter_pass_app/widgets/base_pass_widget.dart';
 import 'package:flutter_pass_app/widgets/boarding_pass_widget.dart';
 import 'package:flutter_pass_app/widgets/coupon_pass_widget.dart';
 import 'package:flutter_pass_app/widgets/eventicket_pass_widget.dart';
@@ -29,8 +35,8 @@ Widget getPassWidget(PkPass pass, BuildContext context) {
   }
 }
 
-Icon getPassCardIcon(PkPass pass, Color color) {
-  switch (pass.type) {
+Icon getPassCardIcon(PassType type, Color color) {
+  switch (type) {
     case PassType.boardingPass:
       return Icon(Icons.airplane_ticket, color: color, size: 40);
     case PassType.coupon:
@@ -47,15 +53,60 @@ Icon getPassCardIcon(PkPass pass, Color color) {
 Widget buildPassCard(PkPass pass, BuildContext context) {
   switch (pass.type) {
     case PassType.boardingPass:
-      return buildBoardingPassCard(pass, context);
+      final theme = BoardinPassTheme.fromPass(pass);
+      return basePassCardWidget(
+        pass.type,
+        pass.pass.boardingPass?.primaryFields?.firstOrNull,
+        pass.pass.organizationName,
+        pass.pass.serialNumber,
+        pass.pass.barcodes?.firstOrNull ?? pass.pass.barcode!,
+        theme,
+        context,
+      );
     case PassType.coupon:
-      return buildCouponCard(pass, context);
+      final theme = CouponPassTheme.fromPass(pass);
+      return basePassCardWidget(
+        pass.type,
+        pass.pass.coupon?.primaryFields?.firstOrNull,
+        pass.pass.organizationName,
+        pass.pass.serialNumber,
+        pass.pass.barcodes?.firstOrNull ?? pass.pass.barcode!,
+        theme,
+        context,
+      );
     case PassType.eventTicket:
-      return buildEventTicketCard(pass, context);
+      final theme = EventTicketTheme.fromPass(pass);
+      return basePassCardWidget(
+        pass.type,
+        pass.pass.eventTicket?.primaryFields?.firstOrNull,
+        pass.pass.organizationName,
+        pass.pass.serialNumber,
+        pass.pass.barcodes?.firstOrNull ?? pass.pass.barcode!,
+        theme,
+        context,
+      );
     case PassType.storeCard:
-      return buildStoreCardCard(pass, context);
+      final theme = StorecardPassTheme.fromPass(pass);
+      return basePassCardWidget(
+        pass.type,
+        pass.pass.storeCard?.primaryFields?.firstOrNull,
+        pass.pass.organizationName,
+        pass.pass.serialNumber,
+        pass.pass.barcodes?.firstOrNull ?? pass.pass.barcode!,
+        theme,
+        context,
+      );
     case PassType.generic:
-      return buildGenericPassCard(pass, context);
+      final theme = GenericPassTheme.fromPass(pass);
+      return basePassCardWidget(
+        pass.type,
+        pass.pass.generic?.primaryFields?.firstOrNull,
+        pass.pass.organizationName,
+        pass.pass.serialNumber,
+        pass.pass.barcodes?.firstOrNull ?? pass.pass.barcode!,
+        theme,
+        context,
+      );
   }
 }
 

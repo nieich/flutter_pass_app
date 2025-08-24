@@ -12,12 +12,11 @@ class PassPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(pass.pass.description, style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
+        title: Text(pass.pass.description),
         backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Theme.of(context).colorScheme.onPrimary,
       ),
       body: Padding(padding: const EdgeInsets.all(8.0), child: getPassWidget(pass, context)),
     );
   }
-
-
 }

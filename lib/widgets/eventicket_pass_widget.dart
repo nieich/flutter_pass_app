@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pass_app/Themes/eventicket_pass_theme.dart';
-import 'package:flutter_pass_app/navigation/routes.dart';
-import 'package:flutter_pass_app/utils/barcode_functions.dart';
 import 'package:flutter_pass_app/utils/pass_functions.dart';
 import 'package:flutter_pass_app/widgets/base_pass_widget.dart';
-import 'package:go_router/go_router.dart';
 import 'package:passkit/passkit.dart';
 
 Widget eventTicketWidget(PkPass pass, BuildContext context) {
@@ -84,42 +81,5 @@ Widget _buildEventField(FieldDict field, {required TextStyle labelStyle, require
       if (field.label?.isNotEmpty ?? false) ...[Text(field.label!, style: labelStyle), const SizedBox(height: 5)],
       Text(field.value?.toString() ?? '', style: valueStyle),
     ],
-  );
-}
-
-Widget buildEventTicketCard(PkPass pass, BuildContext context) {
-  final passTheme = EventTicketTheme.fromPass(pass);
-  final primaryField = pass.pass.eventTicket?.primaryFields?.firstOrNull;
-  final barcode = pass.pass.barcodes?.firstOrNull ?? pass.pass.barcode;
-
-  return Card(
-    elevation: 4.0,
-    margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-    color: passTheme.backgroundColor,
-    child: ListTile(
-      leading: getPassCardIcon(pass, passTheme.foregroundColor),
-      title: Text(
-        pass.pass.organizationName,
-        style: TextStyle(fontWeight: FontWeight.bold, color: passTheme.foregroundColor),
-      ),
-      subtitle: Text(primaryField?.value?.toString() ?? '', style: TextStyle(color: passTheme.foregroundColor)),
-      trailing: barcode != null
-          ? GestureDetector(
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return buildBarCodeDialog(barcode, context);
-                  },
-                );
-              },
-              child: Icon(Icons.qr_code_scanner, color: passTheme.foregroundColor),
-            )
-          : null,
-      onTap: () {
-        context.push('${Routes.pathPass}/${pass.pass.serialNumber}');
-      },
-    ),
   );
 }
