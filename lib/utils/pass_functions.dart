@@ -29,18 +29,18 @@ Widget getPassWidget(PkPass pass, BuildContext context) {
   }
 }
 
-Icon getPassCardIcon(PkPass pass) {
+Icon getPassCardIcon(PkPass pass, Color color) {
   switch (pass.type) {
     case PassType.boardingPass:
-      return const Icon(Icons.airplane_ticket, color: Colors.blue, size: 40);
+      return Icon(Icons.airplane_ticket, color: color, size: 40);
     case PassType.coupon:
-      return const Icon(Icons.card_giftcard, color: Colors.green, size: 40);
+      return Icon(Icons.card_giftcard, color: color, size: 40);
     case PassType.eventTicket:
-      return const Icon(Icons.event, color: Colors.orange, size: 40);
+      return Icon(Icons.event, color: color, size: 40);
     case PassType.storeCard:
-      return const Icon(Icons.store, color: Colors.red, size: 40);
+      return Icon(Icons.store, color: color, size: 40);
     case PassType.generic:
-      return const Icon(Icons.credit_card, color: Colors.purple, size: 40);
+      return Icon(Icons.credit_card, color: color, size: 40);
   }
 }
 

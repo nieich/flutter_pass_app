@@ -112,6 +112,7 @@ Widget _buildDetailColumn(String label, String value, TextStyle labelStyle, Text
 }
 
 Widget buildBoardingPassCard(PkPass pass, BuildContext context) {
+  final passTheme = BoardinPassTheme.fromPass(pass);
   final primaryField = pass.pass.boardingPass?.primaryFields?.firstOrNull;
   final barcode = pass.pass.barcodes?.firstOrNull ?? pass.pass.barcode;
 
@@ -119,10 +120,14 @@ Widget buildBoardingPassCard(PkPass pass, BuildContext context) {
     elevation: 4.0,
     margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+    color: passTheme.backgroundColor,
     child: ListTile(
-      leading: getPassCardIcon(pass),
-      title: Text(pass.pass.organizationName, style: const TextStyle(fontWeight: FontWeight.bold)),
-      subtitle: Text(primaryField?.label ?? ''),
+      leading: getPassCardIcon(pass, passTheme.foregroundColor),
+      title: Text(
+        pass.pass.organizationName,
+        style: TextStyle(fontWeight: FontWeight.bold, color: passTheme.foregroundColor),
+      ),
+      subtitle: Text(primaryField?.label ?? '', style: TextStyle(color: passTheme.foregroundColor)),
       trailing: barcode != null
           ? GestureDetector(
               onTap: () {
@@ -133,7 +138,7 @@ Widget buildBoardingPassCard(PkPass pass, BuildContext context) {
                   },
                 );
               },
-              child: const Icon(Icons.qr_code_scanner),
+              child: Icon(Icons.qr_code_scanner, color: passTheme.foregroundColor),
             )
           : null,
       onTap: () {

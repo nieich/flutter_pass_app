@@ -88,6 +88,7 @@ Widget _buildEventField(FieldDict field, {required TextStyle labelStyle, require
 }
 
 Widget buildEventTicketCard(PkPass pass, BuildContext context) {
+  final passTheme = EventTicketTheme.fromPass(pass);
   final primaryField = pass.pass.eventTicket?.primaryFields?.firstOrNull;
   final barcode = pass.pass.barcodes?.firstOrNull ?? pass.pass.barcode;
 
@@ -95,10 +96,14 @@ Widget buildEventTicketCard(PkPass pass, BuildContext context) {
     elevation: 4.0,
     margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+    color: passTheme.backgroundColor,
     child: ListTile(
-      leading: getPassCardIcon(pass),
-      title: Text(pass.pass.organizationName, style: const TextStyle(fontWeight: FontWeight.bold)),
-      subtitle: Text(primaryField?.value?.toString() ?? ''),
+      leading: getPassCardIcon(pass, passTheme.foregroundColor),
+      title: Text(
+        pass.pass.organizationName,
+        style: TextStyle(fontWeight: FontWeight.bold, color: passTheme.foregroundColor),
+      ),
+      subtitle: Text(primaryField?.value?.toString() ?? '', style: TextStyle(color: passTheme.foregroundColor)),
       trailing: barcode != null
           ? GestureDetector(
               onTap: () {
@@ -109,7 +114,7 @@ Widget buildEventTicketCard(PkPass pass, BuildContext context) {
                   },
                 );
               },
-              child: const Icon(Icons.qr_code_scanner),
+              child: Icon(Icons.qr_code_scanner, color: passTheme.foregroundColor),
             )
           : null,
       onTap: () {

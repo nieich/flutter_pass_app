@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pass_app/Themes/coupon_pass_theme.dart';
 import 'package:flutter_pass_app/navigation/routes.dart';
 import 'package:flutter_pass_app/utils/barcode_functions.dart';
 import 'package:flutter_pass_app/utils/pass_functions.dart';
@@ -11,12 +12,13 @@ Widget couponWidget(PkPass pass, BuildContext context) {
 }
 
 Widget buildCouponCard(PkPass pass, BuildContext context) {
+  final passTheme = CouponPassTheme.fromPass(pass);
   return Card(
     elevation: 4.0,
     margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
     child: ListTile(
-      leading: getPassCardIcon(pass),
+      leading: getPassCardIcon(pass, passTheme.foregroundColor),
       title: Text(
         pass.pass.coupon!.primaryFields?.first.label ?? 'Pass',
         style: const TextStyle(fontWeight: FontWeight.bold),
