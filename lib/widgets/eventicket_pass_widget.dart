@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pass_app/Themes/eventicket_pass_theme.dart';
 import 'package:flutter_pass_app/l10n/app_localizations.dart';
 import 'package:flutter_pass_app/navigation/routes.dart';
 import 'package:flutter_pass_app/utils/barcode_functions.dart';
-import 'package:flutter_pass_app/utils/helper_functions.dart';
 import 'package:flutter_pass_app/utils/pass_functions.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -14,15 +14,15 @@ Widget eventTicketWidget(PkPass pass, BuildContext context) {
     return const Center(child: Text('Invalid Event Ticket Data'));
   }
 
-  Color background = getColorFromRGBA(pass.pass.backgroundColor?.rgba, Colors.white);
-  Color foreground = getColorFromRGBA(pass.pass.foregroundColor?.rgba, Colors.black);
+  final passTheme = EventTicketTheme.fromPass(pass);
+
   final headerField = eventTicket.headerFields?.firstOrNull;
 
   return Padding(
     padding: const EdgeInsets.all(24.0),
     child: Container(
       decoration: BoxDecoration(
-        color: background,
+        color: passTheme.backgroundColor,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
@@ -50,32 +50,32 @@ Widget eventTicketWidget(PkPass pass, BuildContext context) {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text(headerField.label ?? '', style: TextStyle(fontSize: 16, color: foreground)),
+                        Text(headerField.label ?? '', style: passTheme.headerLabelStyle),
                         const SizedBox(height: 5),
                         Text(
                           _formatDate(headerField.value?.toString(), AppLocalizations.of(context)!.localeName),
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: foreground),
+                          style: passTheme.headerTextStyle,
                         ),
                       ],
                     ),
                 ],
               ),
             ),
-          const Divider(color: Colors.black26, indent: 20, endIndent: 20),
+          Divider(color: passTheme.foregroundColor.withValues(alpha: 0.4), indent: 20, endIndent: 20),
 
           // This section displays the movie and location details.
           Padding(
             padding: const EdgeInsets.all(20.0),
             // Center the block of fields, while keeping the text inside left-aligned.
-            child: Center(child: _buildAllFields(eventTicket, foreground)),
+            child: Center(child: _buildAllFields(eventTicket, passTheme)),
           ),
 
-          const Divider(color: Colors.black26, indent: 20, endIndent: 20),
+          Divider(color: passTheme.foregroundColor.withValues(alpha: 0.4), indent: 20, endIndent: 20),
           const SizedBox(height: 20),
 
           //QR Code
           if (pass.pass.barcodes?.isNotEmpty ?? false)
-            buildPassBarcode((pass.pass.barcodes!.firstOrNull ?? pass.pass.barcode)!, context),
+            buildPassBarcode((pass.pass.barcodes!.firstOrNull ?? pass.pass.barcode)!, passTheme, context),
         ],
       ),
     ),
@@ -83,7 +83,7 @@ Widget eventTicketWidget(PkPass pass, BuildContext context) {
 }
 
 // New helper function to build all field widgets
-Widget _buildAllFields(PassStructure eventTicket, Color foreground) {
+Widget _buildAllFields(PassStructure eventTicket, EventTicketTheme theme) {
   final List<Widget> widgets = [];
 
   // Helper to add a list of fields to the main widget list
@@ -103,23 +103,11 @@ Widget _buildAllFields(PassStructure eventTicket, Color foreground) {
     }
   }
 
-  addFields(
-    eventTicket.primaryFields,
-    labelStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: foreground),
-    valueStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: foreground),
-  );
+  addFields(eventTicket.primaryFields, labelStyle: theme.primaryLabelStyle, valueStyle: theme.primaryTextStyle);
 
-  addFields(
-    eventTicket.secondaryFields,
-    labelStyle: TextStyle(fontSize: 16, color: foreground),
-    valueStyle: TextStyle(fontSize: 16, color: foreground),
-  );
+  addFields(eventTicket.secondaryFields, labelStyle: theme.secondaryLabelStyle, valueStyle: theme.secondaryTextStyle);
 
-  addFields(
-    eventTicket.auxiliaryFields,
-    labelStyle: TextStyle(fontSize: 16, color: foreground),
-    valueStyle: TextStyle(fontSize: 16, color: foreground),
-  );
+  addFields(eventTicket.auxiliaryFields, labelStyle: theme.auxiliaryLabelStyle, valueStyle: theme.auxiliaryTextStyle);
 
   return Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: widgets);
 }

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pass_app/Themes/boarding_pass_theme.dart';
 import 'package:flutter_pass_app/navigation/routes.dart';
 import 'package:flutter_pass_app/utils/barcode_functions.dart';
-import 'package:flutter_pass_app/utils/helper_functions.dart';
 import 'package:flutter_pass_app/utils/pass_functions.dart';
 import 'package:go_router/go_router.dart';
 import 'package:passkit/passkit.dart';
 
 Widget boardingPassWidget(PkPass pass, BuildContext context) {
+  final passTheme = BoardinPassTheme.fromPass(pass);
   final boardingPass = pass.pass.boardingPass;
   final barcode = pass.pass.barcodes?.firstOrNull ?? pass.pass.barcode;
 
@@ -19,11 +20,11 @@ Widget boardingPassWidget(PkPass pass, BuildContext context) {
     padding: const EdgeInsets.all(24.0),
     child: Container(
       decoration: BoxDecoration(
-        color: getColorFromRGBA(pass.pass.backgroundColor?.rgba, Colors.white),
+        color: passTheme.backgroundColor,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.2),
+            color: passTheme.backgroundColor.withValues(alpha: 0.2),
             spreadRadius: 2,
             blurRadius: 10,
             offset: const Offset(0, 5), // changes position of shadow
@@ -53,11 +54,8 @@ Widget boardingPassWidget(PkPass pass, BuildContext context) {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  Text(field.label ?? '', style: const TextStyle(fontSize: 14)),
-                                  Text(
-                                    field.value?.toString() ?? '',
-                                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                                  ),
+                                  Text(field.label ?? '', style: passTheme.headerLabelStyle),
+                                  Text(field.value?.toString() ?? '', style: passTheme.headerTextStyle),
                                 ],
                               ),
                             ),
@@ -75,9 +73,9 @@ Widget boardingPassWidget(PkPass pass, BuildContext context) {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _buildPrimaryField(boardingPass.primaryFields![0]),
+                  _buildPrimaryField(boardingPass.primaryFields![0], passTheme),
                   const Icon(Icons.airplanemode_active, size: 48),
-                  _buildPrimaryField(boardingPass.primaryFields![1], alignment: CrossAxisAlignment.end),
+                  _buildPrimaryField(boardingPass.primaryFields![1], passTheme, alignment: CrossAxisAlignment.end),
                 ],
               ),
               const SizedBox(height: 32),
@@ -87,20 +85,28 @@ Widget boardingPassWidget(PkPass pass, BuildContext context) {
 
             // Details Section (Auxiliary)
             if (boardingPass.auxiliaryFields?.isNotEmpty ?? false) ...[
-              _buildFieldsRow(boardingPass.auxiliaryFields!),
+              _buildFieldsRow(
+                boardingPass.auxiliaryFields!,
+                passTheme.auxiliaryLabelStyle,
+                passTheme.auxiliaryTextStyle,
+              ),
               const SizedBox(height: 32),
             ],
 
             // Passenger Section (Secondary)
             if (boardingPass.secondaryFields?.isNotEmpty ?? false) ...[
-              _buildFieldsRow(boardingPass.secondaryFields!),
+              _buildFieldsRow(
+                boardingPass.secondaryFields!,
+                passTheme.secondaryLabelStyle,
+                passTheme.secondaryTextStyle,
+              ),
               const SizedBox(height: 32),
               const Divider(color: Colors.black, height: 1),
               const SizedBox(height: 32),
             ],
 
             // QR Code Section
-            if (barcode != null) Center(child: buildPassBarcode(barcode, context)),
+            if (barcode != null) Center(child: buildPassBarcode(barcode, passTheme, context)),
           ],
         ),
       ),
@@ -109,35 +115,43 @@ Widget boardingPassWidget(PkPass pass, BuildContext context) {
 }
 
 // Helper for Primary Fields (Origin/Destination)
-Widget _buildPrimaryField(FieldDict field, {CrossAxisAlignment alignment = CrossAxisAlignment.start}) {
+Widget _buildPrimaryField(
+  FieldDict field,
+  BoardinPassTheme passTheme, {
+  CrossAxisAlignment alignment = CrossAxisAlignment.start,
+}) {
   return Column(
     crossAxisAlignment: alignment,
     children: [
-      Text(field.label ?? '', style: const TextStyle(fontSize: 16)),
-      Text(field.value?.toString() ?? '', style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold)),
+      Text(field.label ?? '', style: passTheme.primaryLabelStyle),
+      Text(field.value?.toString() ?? '', style: passTheme.primaryTextStyle),
     ],
   );
 }
 
 // Helper for Auxiliary and Secondary fields
-Widget _buildFieldsRow(List<FieldDict> fields) {
+Widget _buildFieldsRow(List<FieldDict> fields, TextStyle labelStyle, TextStyle valueStyle) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     crossAxisAlignment: CrossAxisAlignment.start,
     children: fields
-        .map((field) => Flexible(child: _buildDetailColumn(field.label ?? '', field.value?.toString() ?? '')))
+        .map(
+          (field) => Flexible(
+            child: _buildDetailColumn(field.label ?? '', field.value?.toString() ?? '', labelStyle, valueStyle),
+          ),
+        )
         .toList(),
   );
 }
 
 // Helper method to build detail columns
-Widget _buildDetailColumn(String label, String value) {
+Widget _buildDetailColumn(String label, String value, TextStyle labelStyle, TextStyle valueStyle) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Text(label, style: const TextStyle(fontSize: 14, color: Colors.black54)),
+      Text(label, style: labelStyle),
       const SizedBox(height: 4),
-      Text(value, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+      Text(value, style: valueStyle),
     ],
   );
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pass_app/Themes/base_pass_theme.dart';
 import 'package:flutter_pass_app/utils/barcode_functions.dart';
 import 'package:flutter_pass_app/widgets/boarding_pass_widget.dart';
 import 'package:flutter_pass_app/widgets/coupon_pass_widget.dart';
@@ -56,7 +57,7 @@ Widget buildPassCard(PkPass pass, BuildContext context) {
   }
 }
 
-Widget buildPassBarcode(Barcode barcode, BuildContext context) {
+Widget buildPassBarcode(Barcode barcode, BasePassTheme passTheme, BuildContext context) {
   return Column(
     children: [
       Container(
@@ -81,7 +82,7 @@ Widget buildPassBarcode(Barcode barcode, BuildContext context) {
       Center(
         child: Text(
           barcode.altText ?? '',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, letterSpacing: 1.5, color: Colors.white),
+          style: passTheme.barcodeTextStyle,
         ),
       ),
       const SizedBox(height: 40),
