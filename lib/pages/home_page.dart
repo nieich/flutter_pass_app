@@ -68,9 +68,12 @@ class _HomePageState extends State<HomePage> {
       );
     }
 
-    return ListView.builder(
-      itemCount: _passes.length,
-      itemBuilder: (context, index) => buildPassCard(_passes[index], context),
+    return Padding(
+      padding: const EdgeInsets.only(top: 10.0),
+      child: ListView.builder(
+        itemCount: _passes.length,
+        itemBuilder: (context, index) => buildPassCard(_passes[index], context),
+      ),
     );
   }
 
