@@ -1,61 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pass_app/Themes/eventicket_pass_theme.dart';
-import 'package:flutter_pass_app/l10n/app_localizations.dart';
 import 'package:flutter_pass_app/navigation/routes.dart';
 import 'package:flutter_pass_app/utils/barcode_functions.dart';
 import 'package:flutter_pass_app/utils/pass_functions.dart';
+import 'package:flutter_pass_app/widgets/base_pass_widget.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:passkit/passkit.dart';
 
 Widget eventTicketWidget(PkPass pass, BuildContext context) {
   final eventTicket = pass.pass.eventTicket;
+
   if (eventTicket == null) {
     return const Center(child: Text('Invalid Event Ticket Data'));
   }
 
   final passTheme = EventTicketTheme.fromPass(pass);
 
-  final headerField = eventTicket.headerFields?.firstOrNull;
+  return basePassWidget(passTheme, _buildEventTicketPass(passTheme, pass, eventTicket, context));
+}
 
-  return Padding(
-    padding: const EdgeInsets.all(24.0),
-    child: Container(
-      decoration: BoxDecoration(
-        color: passTheme.backgroundColor,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.5),
-            spreadRadius: 2,
-            blurRadius: 10,
-            offset: const Offset(0, 5), // changes position of shadow
-          ),
-        ],
+Widget _buildEventTicketPass(EventTicketTheme passTheme, PkPass pass, PassStructure eventTicket, BuildContext context) {
+  return Column(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      // Header
+      Padding(padding: const EdgeInsets.all(8.0), child: buildHeader(pass.logo, eventTicket, passTheme, context)),
+      //Divider
+      Divider(color: passTheme.foregroundColor.withValues(alpha: 0.4), indent: 20, endIndent: 20),
+
+      //AllFields
+      Padding(
+        padding: const EdgeInsets.all(20.0),
+        // Center the block of fields, while keeping the text inside left-aligned.
+        child: Center(child: _buildAllFields(eventTicket, passTheme)),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // This is the section with the logo and the start time.
-          Padding(padding: const EdgeInsets.all(8.0), child: buildHeader(pass.logo, eventTicket, passTheme, context)),
-          Divider(color: passTheme.foregroundColor.withValues(alpha: 0.4), indent: 20, endIndent: 20),
 
-          // This section displays the movie and location details.
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            // Center the block of fields, while keeping the text inside left-aligned.
-            child: Center(child: _buildAllFields(eventTicket, passTheme)),
-          ),
+      Divider(color: passTheme.foregroundColor.withValues(alpha: 0.4), indent: 20, endIndent: 20),
+      const SizedBox(height: 20),
 
-          Divider(color: passTheme.foregroundColor.withValues(alpha: 0.4), indent: 20, endIndent: 20),
-          const SizedBox(height: 20),
-
-          //QR Code
-          if (pass.pass.barcodes?.isNotEmpty ?? false)
-            buildPassBarcode((pass.pass.barcodes!.firstOrNull ?? pass.pass.barcode)!, passTheme, context),
-        ],
-      ),
-    ),
+      //QR Code
+      if (pass.pass.barcodes?.isNotEmpty ?? false)
+        buildPassBarcode((pass.pass.barcodes!.firstOrNull ?? pass.pass.barcode)!, passTheme, context),
+    ],
   );
 }
 
@@ -80,10 +66,11 @@ Widget _buildAllFields(PassStructure eventTicket, EventTicketTheme theme) {
     }
   }
 
+  //primaryFields
   addFields(eventTicket.primaryFields, labelStyle: theme.primaryLabelStyle, valueStyle: theme.primaryTextStyle);
-
+  //secondaryFields
   addFields(eventTicket.secondaryFields, labelStyle: theme.secondaryLabelStyle, valueStyle: theme.secondaryTextStyle);
-
+  //auxiliaryFields
   addFields(eventTicket.auxiliaryFields, labelStyle: theme.auxiliaryLabelStyle, valueStyle: theme.auxiliaryTextStyle);
 
   return Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: widgets);
@@ -98,16 +85,6 @@ Widget _buildEventField(FieldDict field, {required TextStyle labelStyle, require
       Text(field.value?.toString() ?? '', style: valueStyle),
     ],
   );
-}
-
-// Helper for date formatting to avoid crashing on invalid date
-String _formatDate(String? dateString, String locale) {
-  if (dateString == null) return '';
-  try {
-    return DateFormat("dd.MM.yyyy HH:mm", locale).format(DateTime.parse(dateString));
-  } catch (e) {
-    return dateString; // Return original string if parsing fails
-  }
 }
 
 Widget buildEventTicketCard(PkPass pass, BuildContext context) {

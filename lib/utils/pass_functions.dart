@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pass_app/Themes/base_pass_theme.dart';
+import 'package:flutter_pass_app/l10n/app_localizations.dart';
 import 'package:flutter_pass_app/utils/barcode_functions.dart';
 import 'package:flutter_pass_app/widgets/boarding_pass_widget.dart';
 import 'package:flutter_pass_app/widgets/coupon_pass_widget.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_pass_app/widgets/eventicket_pass_widget.dart';
 import 'package:flutter_pass_app/widgets/generic_pass_widget.dart';
 import 'package:flutter_pass_app/widgets/storecard_pass_widget.dart';
 import 'package:passkit/passkit.dart';
+import 'package:intl/intl.dart';
 
 Widget getPassWidget(PkPass pass, BuildContext context) {
   switch (pass.type) {
@@ -75,7 +77,7 @@ Widget buildHeader(PkImage? logo, PassStructure pass, BasePassTheme passTheme, B
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(field.label ?? '', style: passTheme.headerLabelStyle),
-                        Text(field.value?.toString() ?? '', style: passTheme.headerTextStyle),
+                        Text(_parseValue(field.value?.toString() ?? '', context), style: passTheme.headerTextStyle),
                       ],
                     ),
                   ),
@@ -86,6 +88,18 @@ Widget buildHeader(PkImage? logo, PassStructure pass, BasePassTheme passTheme, B
       ),
     ],
   );
+}
+
+//try to parse the value to a date
+String _parseValue(String value, BuildContext context) {
+  try {
+    // Passkit dates are often in ISO 8601 format.
+    final dateTime = DateTime.parse(value);
+    // Format the date. You can adjust the format as needed.
+    return DateFormat('dd/MM/yyyy hh:mm', AppLocalizations.of(context)!.localeName).format(dateTime);
+  } on FormatException {
+    return value;
+  }
 }
 
 Widget buildPassBarcode(Barcode barcode, BasePassTheme passTheme, BuildContext context) {
@@ -111,7 +125,7 @@ Widget buildPassBarcode(Barcode barcode, BasePassTheme passTheme, BuildContext c
       ),
       const SizedBox(height: 10),
       Center(child: Text(barcode.altText ?? '', style: passTheme.barcodeTextStyle)),
-      const SizedBox(height: 40),
+      const SizedBox(height: 10),
     ],
   );
 }
