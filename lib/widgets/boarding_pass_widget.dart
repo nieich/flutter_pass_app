@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pass_app/navigation/routes.dart';
 import 'package:flutter_pass_app/utils/barcode_functions.dart';
+import 'package:flutter_pass_app/utils/helper_functions.dart';
 import 'package:flutter_pass_app/utils/pass_functions.dart';
 import 'package:go_router/go_router.dart';
 import 'package:passkit/passkit.dart';
 
 Widget boardingPassWidget(PkPass pass, BuildContext context) {
   final devicePixelRatio = MediaQuery.devicePixelRatioOf(context);
+  final boardingPass = pass.pass.boardingPass;
+  final barcode = pass.pass.barcodes?.firstOrNull ?? pass.pass.barcode;
+
+  if (boardingPass == null) {
+    // Or return a more user-friendly error widget
+    return const Center(child: Text('Invalid Boarding Pass Data'));
+  }
 
   return Padding(
     padding: const EdgeInsets.all(24.0),
     child: Container(
       decoration: BoxDecoration(
-        color: const Color(0xFFFDCB61), // Main card color
+        color: getColorFromRGBA(pass.pass.backgroundColor?.rgba, Colors.white),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
@@ -29,174 +37,101 @@ Widget boardingPassWidget(PkPass pass, BuildContext context) {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Top Section: Logo and Seat
+            // Top Section: Logo and Header Fields
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    ConstrainedBox(
-                      constraints: const BoxConstraints(minHeight: 30, maxHeight: 30, maxWidth: 96),
-                      child: Image.memory(pass.logo!.fromMultiplier(devicePixelRatio.toInt() + 1), fit: BoxFit.contain),
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    // Seat
-                    Text(pass.pass.boardingPass!.headerFields?[0].label ?? '', style: TextStyle(fontSize: 14)),
-                    Text(
-                      pass.pass.boardingPass!.headerFields?[0].value.toString() ?? '',
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    //Group
-                    Text(pass.pass.boardingPass!.headerFields?[1].label ?? '', style: TextStyle(fontSize: 14)),
-                    Text(
-                      pass.pass.boardingPass!.headerFields?[1].value.toString() ?? '',
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    //Gate
-                    Text(pass.pass.boardingPass!.headerFields?[2].label ?? '', style: TextStyle(fontSize: 14)),
-                    Text(
-                      pass.pass.boardingPass!.headerFields?[2].value.toString() ?? '',
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                  ],
+                if (pass.logo != null)
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(minHeight: 30, maxHeight: 30, maxWidth: 96),
+                    child: Image.memory(pass.logo!.fromMultiplier(devicePixelRatio.round()), fit: BoxFit.contain),
+                  ),
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      if (boardingPass.headerFields?.isNotEmpty ?? false)
+                        ...boardingPass.headerFields!.map(
+                          (field) => Flexible(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(field.label ?? '', style: const TextStyle(fontSize: 14)),
+                                  Text(
+                                    field.value?.toString() ?? '',
+                                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
               ],
             ),
             const SizedBox(height: 24),
 
             // Middle Section: Depart and Arrive
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // origin
-                    Text(pass.pass.boardingPass!.primaryFields?[0].label ?? '', style: TextStyle(fontSize: 16)),
-                    Text(
-                      pass.pass.boardingPass!.primaryFields?[0].value.toString() ?? '',
-                      style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                const Icon(Icons.airplanemode_active, size: 48),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    // destination
-                    Text(pass.pass.boardingPass!.primaryFields?[1].label ?? '', style: TextStyle(fontSize: 16)),
-                    Text(
-                      pass.pass.boardingPass!.primaryFields?[1].value.toString() ?? '',
-                      style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 32),
-            const Divider(color: Colors.black, height: 1),
-            const SizedBox(height: 32),
+            if (boardingPass.primaryFields?.length == 2) ...[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildPrimaryField(boardingPass.primaryFields![0]),
+                  const Icon(Icons.airplanemode_active, size: 48),
+                  _buildPrimaryField(boardingPass.primaryFields![1], alignment: CrossAxisAlignment.end),
+                ],
+              ),
+              const SizedBox(height: 32),
+              const Divider(color: Colors.black, height: 1),
+              const SizedBox(height: 32),
+            ],
 
-            // Details Section: Flight, Date, Boarding, Gate
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Flight
-                _buildDetailColumn(
-                  pass.pass.boardingPass!.auxiliaryFields?[0].label ?? '',
-                  pass.pass.boardingPass!.auxiliaryFields?[0].value.toString() ?? '',
-                ),
-                // Date
-                _buildDetailColumn(
-                  pass.pass.boardingPass!.auxiliaryFields?[1].label ?? '',
-                  pass.pass.boardingPass!.auxiliaryFields?[1].value.toString() ?? '',
-                ),
-                // Boarding
-                _buildDetailColumn(
-                  pass.pass.boardingPass!.auxiliaryFields?[2].label ?? '',
-                  pass.pass.boardingPass!.auxiliaryFields?[2].value.toString() ?? '',
-                ),
-                // Gate closes
-                _buildDetailColumn(
-                  pass.pass.boardingPass!.auxiliaryFields?[3].label ?? '',
-                  pass.pass.boardingPass!.auxiliaryFields?[3].value.toString() ?? '',
-                ),
-              ],
-            ),
-            const SizedBox(height: 32),
+            // Details Section (Auxiliary)
+            if (boardingPass.auxiliaryFields?.isNotEmpty ?? false) ...[
+              _buildFieldsRow(boardingPass.auxiliaryFields!),
+              const SizedBox(height: 32),
+            ],
 
-            // Passenger Section
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                //passenger
-                _buildDetailColumn(
-                  pass.pass.boardingPass!.secondaryFields?[0].label ?? '',
-                  pass.pass.boardingPass!.secondaryFields?[0].value.toString() ?? '',
-                ),
-                // Class
-                _buildDetailColumn(
-                  pass.pass.boardingPass!.secondaryFields?[1].label ?? '',
-                  pass.pass.boardingPass!.secondaryFields?[1].value.toString() ?? '',
-                ),
-                // Status
-                _buildDetailColumn(
-                  pass.pass.boardingPass!.secondaryFields?[2].label ?? '',
-                  pass.pass.boardingPass!.secondaryFields?[2].value.toString() ?? '',
-                ),
-              ],
-            ),
-            const SizedBox(height: 32),
-            const Divider(color: Colors.black, height: 1),
-            const SizedBox(height: 32),
+            // Passenger Section (Secondary)
+            if (boardingPass.secondaryFields?.isNotEmpty ?? false) ...[
+              _buildFieldsRow(boardingPass.secondaryFields!),
+              const SizedBox(height: 32),
+              const Divider(color: Colors.black, height: 1),
+              const SizedBox(height: 32),
+            ],
 
             // QR Code Section
-            Center(
-              child: Container(
-                height: 160,
-                width: 160,
-                decoration: BoxDecoration(color: Colors.white),
-                child: Center(
-                  child: GestureDetector(
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return buildBarCodeDialog(pass, context);
-                        },
-                      );
-                    },
-                    child: buildBarCodeImage(pass.pass.barcodes!.first),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            Center(
-              child: Text(
-                pass.pass.barcodes?.first.altText ?? '',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, letterSpacing: 1.5, color: Colors.white),
-              ),
-            ),
-            const SizedBox(height: 40),
+            if (barcode != null) Center(child: buildPassBarcode(barcode, context)),
           ],
         ),
       ),
     ),
+  );
+}
+
+// Helper for Primary Fields (Origin/Destination)
+Widget _buildPrimaryField(FieldDict field, {CrossAxisAlignment alignment = CrossAxisAlignment.start}) {
+  return Column(
+    crossAxisAlignment: alignment,
+    children: [
+      Text(field.label ?? '', style: const TextStyle(fontSize: 16)),
+      Text(field.value?.toString() ?? '', style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold)),
+    ],
+  );
+}
+
+// Helper for Auxiliary and Secondary fields
+Widget _buildFieldsRow(List<FieldDict> fields) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: fields
+        .map((field) => Flexible(child: _buildDetailColumn(field.label ?? '', field.value?.toString() ?? '')))
+        .toList(),
   );
 }
 
@@ -213,28 +148,30 @@ Widget _buildDetailColumn(String label, String value) {
 }
 
 Widget buildBoardingPassCard(PkPass pass, BuildContext context) {
+  final primaryField = pass.pass.boardingPass?.primaryFields?.firstOrNull;
+  final barcode = pass.pass.barcodes?.firstOrNull ?? pass.pass.barcode;
+
   return Card(
     elevation: 4.0,
     margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
     child: ListTile(
       leading: getPassCardIcon(pass),
-      title: Text(
-        pass.pass.boardingPass!.primaryFields?.first.label ?? 'Pass',
-        style: const TextStyle(fontWeight: FontWeight.bold),
-      ),
-      subtitle: Text(pass.pass.boardingPass!.primaryFields?.first.value.toString() ?? ''),
-      trailing: GestureDetector(
-        onTap: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return buildBarCodeDialog(pass, context);
-            },
-          );
-        },
-        child: const Icon(Icons.qr_code_scanner),
-      ),
+      title: Text(pass.pass.organizationName, style: const TextStyle(fontWeight: FontWeight.bold)),
+      subtitle: Text(primaryField?.label ?? ''),
+      trailing: barcode != null
+          ? GestureDetector(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return buildBarCodeDialog(barcode, context);
+                  },
+                );
+              },
+              child: const Icon(Icons.qr_code_scanner),
+            )
+          : null,
       onTap: () {
         context.push('${Routes.pathPass}/${pass.pass.serialNumber}');
       },

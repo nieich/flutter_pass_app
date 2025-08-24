@@ -27,7 +27,7 @@ Widget buildCouponCard(PkPass pass, BuildContext context) {
           showDialog(
             context: context,
             builder: (BuildContext context) {
-              return buildBarCodeDialog(pass, context);
+              return buildBarCodeDialog((pass.pass.barcodes?.firstOrNull ?? pass.pass.barcode)!, context);
             },
           );
         },

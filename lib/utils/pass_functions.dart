@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pass_app/utils/barcode_functions.dart';
 import 'package:flutter_pass_app/widgets/boarding_pass_widget.dart';
 import 'package:flutter_pass_app/widgets/coupon_pass_widget.dart';
 import 'package:flutter_pass_app/widgets/eventicket_pass_widget.dart';
@@ -53,4 +54,37 @@ Widget buildPassCard(PkPass pass, BuildContext context) {
     case PassType.generic:
       return buildGenericPassCard(pass, context);
   }
+}
+
+Widget buildPassBarcode(Barcode barcode, BuildContext context) {
+  return Column(
+    children: [
+      Container(
+        height: 160,
+        width: 160,
+        decoration: BoxDecoration(color: Colors.white),
+        child: Center(
+          child: GestureDetector(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return buildBarCodeDialog(barcode, context);
+                },
+              );
+            },
+            child: buildBarCodeImage(barcode),
+          ),
+        ),
+      ),
+      const SizedBox(height: 10),
+      Center(
+        child: Text(
+          barcode.altText ?? '',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, letterSpacing: 1.5, color: Colors.white),
+        ),
+      ),
+      const SizedBox(height: 40),
+    ],
+  );
 }

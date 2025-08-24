@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pass_app/l10n/app_localizations.dart';
 import 'package:flutter_pass_app/navigation/routes.dart';
 import 'package:flutter_pass_app/services/pass_service.dart';
-import 'package:flutter_pass_app/utils/barcode_functions.dart';
 import 'package:flutter_pass_app/utils/pass_functions.dart';
 import 'package:go_router/go_router.dart';
 import 'package:passkit/passkit.dart';

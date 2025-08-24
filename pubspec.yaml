@@ -48,6 +48,7 @@ dependencies:
   logging:
 
   passkit:
+  csslib:
   passkit_ui:  
 
   barcode_widget:
