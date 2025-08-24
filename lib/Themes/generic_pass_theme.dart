@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pass_app/Themes/base_pass_theme.dart';
+import 'package:flutter_pass_app/utils/constants.dart';
 import 'package:flutter_pass_app/utils/helper_functions.dart';
 import 'package:passkit/passkit.dart';
 
@@ -21,8 +22,8 @@ class GenericPassTheme extends ThemeExtension<GenericPassTheme> implements BaseP
   });
 
   factory GenericPassTheme.fromPass(PkPass pass) {
-    final backgroundColor = getColorFromRGBA(pass.pass.backgroundColor?.rgba, Colors.white);
-    final foregroundColor = getColorFromRGBA(pass.pass.foregroundColor?.rgba, Colors.black);
+    final backgroundColor = getColorFromRGBA(pass.pass.backgroundColor?.rgba, Constants.defaultBackgroundColor);
+    final foregroundColor = getColorFromRGBA(pass.pass.foregroundColor?.rgba, Constants.defaultForegroundColor);
     final labelColor = getColorFromRGBA(pass.pass.labelColor?.rgba, Colors.black);
     final foregroundTextStyle = TextStyle(color: foregroundColor);
     final labelTextStyle = TextStyle(color: labelColor);
