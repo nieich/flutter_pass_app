@@ -56,7 +56,9 @@ class EventTicketTheme extends ThemeExtension<EventTicketTheme> implements BaseP
   @override
   final TextStyle barcodeTextStyle;
 
+  @override
   final TextStyle headerLabelStyle;
+  @override
   final TextStyle headerTextStyle;
 
   final TextStyle primaryLabelStyle;

@@ -7,5 +7,8 @@ abstract interface class BasePassTheme {
 
   TextStyle get logoTextStyle;
 
+  TextStyle get headerLabelStyle;
+  TextStyle get headerTextStyle;
+
   TextStyle get barcodeTextStyle;
 }

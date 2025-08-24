@@ -38,33 +38,9 @@ Widget boardingPassWidget(PkPass pass, BuildContext context) {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Top Section: Logo and Header Fields
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (pass.logo != null) Logo(logo: pass.logo),
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      if (boardingPass.headerFields?.isNotEmpty ?? false)
-                        ...boardingPass.headerFields!.map(
-                          (field) => Flexible(
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 16.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text(field.label ?? '', style: passTheme.headerLabelStyle),
-                                  Text(field.value?.toString() ?? '', style: passTheme.headerTextStyle),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: buildHeader(pass.logo, boardingPass, passTheme, context),
             ),
             const SizedBox(height: 24),
 

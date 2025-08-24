@@ -37,30 +37,7 @@ Widget eventTicketWidget(PkPass pass, BuildContext context) {
         mainAxisSize: MainAxisSize.min,
         children: [
           // This is the section with the logo and the start time.
-          if (pass.logo != null || headerField != null)
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (pass.logo != null) Logo(logo: pass.logo),
-
-                  if (headerField != null)
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(headerField.label ?? '', style: passTheme.headerLabelStyle),
-                        const SizedBox(height: 5),
-                        Text(
-                          _formatDate(headerField.value?.toString(), AppLocalizations.of(context)!.localeName),
-                          style: passTheme.headerTextStyle,
-                        ),
-                      ],
-                    ),
-                ],
-              ),
-            ),
+          Padding(padding: const EdgeInsets.all(8.0), child: buildHeader(pass.logo, eventTicket, passTheme, context)),
           Divider(color: passTheme.foregroundColor.withValues(alpha: 0.4), indent: 20, endIndent: 20),
 
           // This section displays the movie and location details.

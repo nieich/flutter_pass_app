@@ -57,6 +57,37 @@ Widget buildPassCard(PkPass pass, BuildContext context) {
   }
 }
 
+Widget buildHeader(PkImage? logo, PassStructure pass, BasePassTheme passTheme, BuildContext context) {
+  return Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      if (logo != null) Logo(logo: logo),
+      Expanded(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            if (pass.headerFields?.isNotEmpty ?? false)
+              ...pass.headerFields!.map(
+                (field) => Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(field.label ?? '', style: passTheme.headerLabelStyle),
+                        Text(field.value?.toString() ?? '', style: passTheme.headerTextStyle),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    ],
+  );
+}
+
 Widget buildPassBarcode(Barcode barcode, BasePassTheme passTheme, BuildContext context) {
   return Column(
     children: [
@@ -79,12 +110,7 @@ Widget buildPassBarcode(Barcode barcode, BasePassTheme passTheme, BuildContext c
         ),
       ),
       const SizedBox(height: 10),
-      Center(
-        child: Text(
-          barcode.altText ?? '',
-          style: passTheme.barcodeTextStyle,
-        ),
-      ),
+      Center(child: Text(barcode.altText ?? '', style: passTheme.barcodeTextStyle)),
       const SizedBox(height: 40),
     ],
   );
@@ -102,15 +128,8 @@ class Logo extends StatelessWidget {
     final devicePixelRatio = MediaQuery.devicePixelRatioOf(context);
 
     return ConstrainedBox(
-      constraints: const BoxConstraints(
-        minHeight: 30,
-        maxHeight: 30,
-        maxWidth: 96,
-      ),
-      child: Image.memory(
-        logo!.fromMultiplier(devicePixelRatio.toInt() + 1),
-        fit: BoxFit.contain,
-      ),
+      constraints: const BoxConstraints(minHeight: 30, maxHeight: 30, maxWidth: 96),
+      child: Image.memory(logo!.fromMultiplier(devicePixelRatio.toInt() + 1), fit: BoxFit.contain),
     );
   }
 }
