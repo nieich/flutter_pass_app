@@ -88,3 +88,28 @@ Widget buildPassBarcode(Barcode barcode, BuildContext context) {
     ],
   );
 }
+
+class Logo extends StatelessWidget {
+  const Logo({super.key, this.logo});
+
+  final PkImage? logo;
+
+  @override
+  Widget build(BuildContext context) {
+    if (logo == null) return const SizedBox.shrink();
+
+    final devicePixelRatio = MediaQuery.devicePixelRatioOf(context);
+
+    return ConstrainedBox(
+      constraints: const BoxConstraints(
+        minHeight: 30,
+        maxHeight: 30,
+        maxWidth: 96,
+      ),
+      child: Image.memory(
+        logo!.fromMultiplier(devicePixelRatio.toInt() + 1),
+        fit: BoxFit.contain,
+      ),
+    );
+  }
+}

@@ -26,7 +26,7 @@ Widget eventTicketWidget(PkPass pass, BuildContext context) {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.2),
+            color: Colors.black.withValues(alpha: 0.5),
             spreadRadius: 2,
             blurRadius: 10,
             offset: const Offset(0, 5), // changes position of shadow
@@ -44,12 +44,8 @@ Widget eventTicketWidget(PkPass pass, BuildContext context) {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // This uses an asset image. For a real app, you would add the image to your assets folder.
-                  // For this example, we'll just use a placeholder text.
-                  Text(
-                    pass.pass.organizationName,
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: foreground),
-                  ),
+                  if (pass.logo != null) Logo(logo: pass.logo),
+
                   if (headerField != null)
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,

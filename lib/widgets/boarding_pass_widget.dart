@@ -7,7 +7,6 @@ import 'package:go_router/go_router.dart';
 import 'package:passkit/passkit.dart';
 
 Widget boardingPassWidget(PkPass pass, BuildContext context) {
-  final devicePixelRatio = MediaQuery.devicePixelRatioOf(context);
   final boardingPass = pass.pass.boardingPass;
   final barcode = pass.pass.barcodes?.firstOrNull ?? pass.pass.barcode;
 
@@ -41,11 +40,7 @@ Widget boardingPassWidget(PkPass pass, BuildContext context) {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (pass.logo != null)
-                  ConstrainedBox(
-                    constraints: const BoxConstraints(minHeight: 30, maxHeight: 30, maxWidth: 96),
-                    child: Image.memory(pass.logo!.fromMultiplier(devicePixelRatio.round()), fit: BoxFit.contain),
-                  ),
+                if (pass.logo != null) Logo(logo: pass.logo),
                 Expanded(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
