@@ -37,6 +37,8 @@ dependencies:
 
   go_router:
 
+  http:
+
   file_picker:
 
   path_provider:
