@@ -1,4 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <!-- Required for API calls -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Required for workmanager -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:label="flutter_pass_app"
         android:name="${applicationName}"

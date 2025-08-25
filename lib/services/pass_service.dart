@@ -83,13 +83,18 @@ class PassService {
   }
 
   Future<PkPass?> updatePass(String serialNumber) async {
-    final bytes = await _storage.loadPassFile(serialNumber);
-    final oldPass = PkPass.fromBytes(bytes);
+    final oldPass = findPass(serialNumber);
 
     if (oldPass.isWebServiceAvailable == false) {
       _logger.info('Pass cant update');
       return oldPass;
     }
+
+    if (oldPass.pass.expirationDate != null && oldPass.pass.expirationDate!.isBefore(DateTime.now())) {
+      _logger.info('Pass expired');
+      return oldPass;
+    }
+
     try {
       final webServiceURL = oldPass.pass.webServiceURL!;
       final authToken = oldPass.pass.authenticationToken!;

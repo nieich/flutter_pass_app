@@ -39,6 +39,8 @@ dependencies:
 
   http:
 
+  workmanager:
+
   file_picker:
 
   path_provider:
