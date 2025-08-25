@@ -3,6 +3,7 @@ import 'package:flutter_pass_app/l10n/app_localizations.dart';
 import 'package:flutter_pass_app/navigation/router.dart';
 import 'package:flutter_pass_app/services/log_service.dart';
 import 'package:flutter_pass_app/services/pass_service.dart';
+import 'package:flutter_pass_app/services/settings_service.dart';
 import 'package:flutter_pass_app/utils/constants.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:logging/logging.dart';
@@ -45,15 +46,26 @@ Future<void> main() async {
 
   await PassService.instance.initialize();
 
-  await Workmanager().initialize(callbackDispatcher);
-
-  // Register a periodic task.
-  Workmanager().registerPeriodicTask(
-    Constants.workmanagerRefreshTaskId,
-    Constants.workmanagerRefreshTaskName,
-    frequency: const Duration(hours: 1),
-    constraints: Constraints(networkType: NetworkType.connected),
+  final isRefreshActivated = await SettingsService().getBool(
+    SettingsService.isUpdateIntervalActivatedKey,
+    defaultValue: false,
   );
+  if (isRefreshActivated) {
+    final frequenceString = await SettingsService().getString(SettingsService.updateIntervalKey, defaultValue: '60');
+    final frequence = int.parse(frequenceString);
+
+    await Workmanager().initialize(callbackDispatcher);
+
+    // Register a periodic task.
+    Workmanager().registerPeriodicTask(
+      Constants.workmanagerRefreshTaskId,
+      Constants.workmanagerRefreshTaskName,
+      frequency: Duration(minutes: frequence),
+      constraints: Constraints(networkType: NetworkType.connected),
+    );
+  } else {
+    Workmanager().cancelByUniqueName(Constants.workmanagerRefreshTaskName);
+  }
 
   runApp(const MyApp());
 }
