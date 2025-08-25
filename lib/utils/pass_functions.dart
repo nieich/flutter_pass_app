@@ -20,18 +20,14 @@ Widget getPassWidget(PkPass pass, BuildContext context) {
   switch (pass.type) {
     case PassType.boardingPass:
       return boardingPassWidget(pass, context);
-    //return BoardingPassWidget(pass: pass);
     case PassType.coupon:
       return couponWidget(pass, context);
-    //return CouponWidget(pass: pass);
     case PassType.eventTicket:
       return eventTicketWidget(pass, context);
     case PassType.storeCard:
       return storeCardWidget(pass, context);
-    //return StoreCardWidget(pass: pass);
     case PassType.generic:
       return genericPassWidget(pass, context);
-    //return GenericWidget(pass: pass);
   }
 }
 
