@@ -4,6 +4,7 @@
     "pickedFile",
     "invalidFileType",
     "noPasses",
-    "passParseError"
+    "passParseError",
+    "settings"
   ]
 }
