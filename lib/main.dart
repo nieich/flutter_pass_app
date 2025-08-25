@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pass_app/l10n/app_localizations.dart';
 import 'package:flutter_pass_app/navigation/router.dart';
+import 'package:flutter_pass_app/services/log_service.dart';
 import 'package:flutter_pass_app/services/pass_service.dart';
 import 'package:flutter_pass_app/utils/constants.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -37,6 +38,7 @@ Future<void> main() async {
   Logger.root.onRecord.listen((record) {
     // ignore: avoid_print
     print('${record.level.name}: ${record.time}: ${record.message}');
+    LogService().add(record);
   });
 
   await initializeDateFormatting('de', null);
