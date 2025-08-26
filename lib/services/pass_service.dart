@@ -7,33 +7,57 @@ import 'package:logging/logging.dart';
 
 import 'pass_file_storage_service.dart';
 
-/// A high-level service that provides parsed [PkPass] models to the app.
-/// It orchestrates the file storage and parsing services.
-class PassService {
-  // --- Singleton Setup ---
-  PassService._privateConstructor();
-  static final PassService instance = PassService._privateConstructor();
-  // ---
-  final Logger _logger = Logger('PassService');
-  final _storage = PassFileStorageService.instance;
-  final _import = PassImportService.instance;
-
-  // A private list to hold the passes in memory.
-  List<PkPass> _passes = [];
-
+/// An abstract interface for a high-level service that provides parsed
+/// [PkPass] models to the app. It orchestrates the file storage, import,
+/// and parsing services.
+abstract class PassService {
   /// A public, unmodifiable view of the passes.
-  List<PkPass> get passes => List.unmodifiable(_passes);
+  List<PkPass> get passes;
 
   /// Initializes the service by loading and parsing all pass files from storage.
-  /// Should be called once when the app starts, e.g., in `main()`.
+  Future<void> initialize();
+
+  /// Reloads all passes from the file system and parses them.
+  Future<void> refreshPasses();
+
+  /// Imports a pass from a file and adds it to the collection.
+  Future<PkPass?> importPass();
+
+  /// Finds a pass by its serial number.
+  PkPass findPass(String serialNumber);
+
+  /// Attempts to update all passes that have a web service URL.
+  Future<void> updateAllPasses();
+
+  /// Attempts to update a single pass by its serial number.
+  Future<PkPass?> updatePass(String serialNumber);
+
+  /// Removes a pass from storage and memory by its serial number.
+  Future<bool> removePass(String serialNumber);
+
+  /// Clears all passes from memory and storage.
+  Future<void> clearAllPasses();
+}
+
+/// A concrete implementation of [PassService].
+class PassServiceImpl implements PassService {
+  final Logger _logger = Logger('PassService');
+  final PassFileStorageService _storage;
+  final PassImportService _import;
+  List<PkPass> _passes = [];
+
+  PassServiceImpl(this._storage, this._import);
+
+  @override
+  List<PkPass> get passes => List.unmodifiable(_passes);
+
+  @override
   Future<void> initialize() async {
     await refreshPasses();
     await updateAllPasses();
   }
 
-  /// Reloads all passes from the file system and parses them.
-  ///
-  /// This is useful after an import or deletion to update the in-memory list.
+  @override
   Future<void> refreshPasses() async {
     final passBytesMap = await _storage.loadAllPassFiles();
     final List<PkPass> loadedPasses = [];
@@ -58,30 +82,32 @@ class PassService {
     _passes = loadedPasses;
   }
 
-  /// Import a pass
-  ///
-  ///
+  @override
   Future<PkPass?> importPass() async {
     final importResult = await _import.importPassFromFile();
     if (importResult == null) {
       return null;
     }
+
     await refreshPasses();
 
     final (importedPass, _) = importResult;
     return importedPass;
   }
 
+  @override
   PkPass findPass(String serialNumber) {
     return _passes.firstWhere((pass) => pass.pass.serialNumber == serialNumber);
   }
 
+  @override
   Future<void> updateAllPasses() async {
     for (final pass in _passes) {
       await updatePass(pass.pass.serialNumber);
     }
   }
 
+  @override
   Future<PkPass?> updatePass(String serialNumber) async {
     final oldPass = findPass(serialNumber);
 
@@ -128,9 +154,7 @@ class PassService {
     return oldPass;
   }
 
-  /// Removes a pass from the list by its serial number.
-  ///
-  /// Returns `true` if a pass was removed, `false` otherwise.
+  @override
   Future<bool> removePass(String serialNumber) async {
     final passExists = _passes.any((p) => p.pass.serialNumber == serialNumber);
 
@@ -144,7 +168,7 @@ class PassService {
     return false;
   }
 
-  /// Clears all passes from memory and SharedPreferences.
+  @override
   Future<void> clearAllPasses() async {
     _passes = [];
     await _storage.deleteAllPassFiles();

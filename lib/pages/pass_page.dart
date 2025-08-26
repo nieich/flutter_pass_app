@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pass_app/services/pass_service.dart';
+import 'package:flutter_pass_app/services/service_locator.dart';
 import 'package:flutter_pass_app/utils/pass_functions.dart';
 import 'package:passkit/passkit.dart';
 
@@ -20,7 +21,7 @@ class _PassPageState extends State<PassPage> {
     // It's better to fetch the pass here rather than in the build method.
     // The bang operator (!) is used here, assuming serialNumber is never null
     // when this page is navigated to, as in the original code.
-    _pass = PassService.instance.findPass(widget.serialNumber!);
+    _pass = locator<PassService>().findPass(widget.serialNumber!);
   }
 
   Future<void> _handleRefresh() async {
@@ -30,7 +31,7 @@ class _PassPageState extends State<PassPage> {
       return;
     }
 
-    final updatedPass = await PassService.instance.updatePass(widget.serialNumber!);
+    final updatedPass = await locator<PassService>().updatePass(widget.serialNumber!);
 
     if (updatedPass != null && mounted) {
       setState(() {

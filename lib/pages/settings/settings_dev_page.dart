@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pass_app/services/log_service.dart';
+import 'package:flutter_pass_app/services/service_locator.dart';
 import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 import 'package:share_plus/share_plus.dart';
@@ -12,7 +13,7 @@ class SettingsDevPage extends StatefulWidget {
 }
 
 class _SettingsDevPageState extends State<SettingsDevPage> {
-  final LogService _logService = LogService();
+  final LogService _logService = locator<LogService>();
 
   @override
   Widget build(BuildContext context) {

@@ -3,6 +3,7 @@ import 'package:flutter_pass_app/l10n/app_localizations.dart';
 import 'package:flutter_pass_app/navigation/router.dart';
 import 'package:flutter_pass_app/services/log_service.dart';
 import 'package:flutter_pass_app/services/pass_service.dart';
+import 'package:flutter_pass_app/services/service_locator.dart';
 import 'package:flutter_pass_app/services/settings_service.dart';
 import 'package:flutter_pass_app/utils/constants.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -19,7 +20,7 @@ void callbackDispatcher() {
       // In a real app, initializing services for background isolates can be complex.
       // You might need a dependency injection setup that can be initialized here.
       // For this example, we assume the singleton can be accessed.
-      final service = PassService.instance;
+      final service = locator<PassService>();
       service.initialize();
 
       service.updateAllPasses();
@@ -35,16 +36,19 @@ Future<void> main() async {
   // Ensures that the plugin services are initialized before the app is executed.
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Set up the service locator before running the app.
+  setupLocator();
+
   Logger.root.level = Level.ALL; // defaults to Level.INFO
   Logger.root.onRecord.listen((record) {
     // ignore: avoid_print
     print('${record.level.name}: ${record.time}: ${record.message}');
-    LogService().add(record);
+    locator<LogService>().add(record);
   });
 
   await initializeDateFormatting('de', null);
 
-  await PassService.instance.initialize();
+  await locator<PassService>().initialize();
 
   final isRefreshActivated = await SettingsService().getBool(
     SettingsService.isUpdateIntervalActivatedKey,
