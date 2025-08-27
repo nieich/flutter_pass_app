@@ -4,6 +4,26 @@ import 'package:flutter_pass_app/utils/pass_functions.dart';
 import 'package:flutter_pass_app/widgets/base_pass_widget.dart';
 import 'package:passkit/passkit.dart';
 
+class Thumbnail extends StatelessWidget {
+  const Thumbnail({super.key, this.thumbnail});
+
+  final PkImage? thumbnail;
+
+  @override
+  Widget build(BuildContext context) {
+    if (thumbnail == null) return const SizedBox.shrink();
+
+    final devicePixelRatio = MediaQuery.devicePixelRatioOf(context);
+
+    return Image.memory(
+      thumbnail!.fromMultiplier(devicePixelRatio.toInt() + 1),
+      fit: BoxFit.contain,
+      width: 90,
+      height: 90,
+    );
+  }
+}
+
 Widget eventTicketWidget(PkPass pass, BuildContext context) {
   final eventTicket = pass.pass.eventTicket;
 
@@ -29,7 +49,22 @@ Widget _buildEventTicketPass(EventTicketTheme passTheme, PkPass pass, PassStruct
       Padding(
         padding: const EdgeInsets.all(20.0),
         // Center the block of fields, while keeping the text inside left-aligned.
-        child: Center(child: _buildAllFields(eventTicket, passTheme)),
+        child: Row(
+          // Changed to Row directly, Center is not needed around Row for this.
+          crossAxisAlignment: CrossAxisAlignment.start, // Align content to the top
+          children: [
+            Expanded(
+              // The fields will take up available space
+              child: _buildAllFields(eventTicket, passTheme),
+            ),
+            // Add some spacing between the fields and the thumbnail
+            const SizedBox(width: 10),
+            // The thumbnail will take its intrinsic size, but if too large, it might still overflow if not constrained internally.
+            // Assuming Thumbnail internally handles its size or you want it to be a specific size.
+            // If the thumbnail is an Image widget, ensure it's not trying to render larger than its parent.
+            Thumbnail(thumbnail: pass.thumbnail),
+          ],
+        ),
       ),
 
       Divider(color: passTheme.foregroundColor.withValues(alpha: 0.4), indent: 20, endIndent: 20),
