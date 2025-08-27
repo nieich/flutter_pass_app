@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pass_app/l10n/app_localizations.dart';
 import 'package:flutter_pass_app/navigation/router.dart';
-import 'package:flutter_pass_app/services/log_service.dart';
-import 'package:flutter_pass_app/services/pass_service.dart';
 import 'package:flutter_pass_app/services/service_locator.dart';
-import 'package:flutter_pass_app/services/settings_service.dart';
+import 'package:flutter_pass_app/services/services.dart';
 import 'package:flutter_pass_app/utils/constants.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:logging/logging.dart';
@@ -38,6 +36,8 @@ Future<void> main() async {
 
   // Set up the service locator before running the app.
   setupLocator();
+
+  locator<SharedPreferenceService>().init();
 
   Logger.root.level = Level.ALL; // defaults to Level.INFO
   Logger.root.onRecord.listen((record) {

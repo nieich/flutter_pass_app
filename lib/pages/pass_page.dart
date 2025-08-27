@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pass_app/services/pass_service.dart';
 import 'package:flutter_pass_app/services/service_locator.dart';
+import 'package:flutter_pass_app/services/services.dart';
 import 'package:flutter_pass_app/utils/pass_functions.dart';
 import 'package:passkit/passkit.dart';
+import 'package:share_plus/share_plus.dart';
 
 class PassPage extends StatefulWidget {
   final String? serialNumber;
@@ -44,6 +46,34 @@ class _PassPageState extends State<PassPage> {
     }
   }
 
+  Future<void> _handleDelete() async {
+    final bool? confirmed = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Delete Pass'),
+          content: const Text('Are you sure you want to delete this pass? This action cannot be undone.'),
+          actions: <Widget>[
+            TextButton(child: const Text('Cancel'), onPressed: () => Navigator.of(context).pop(false)),
+            TextButton(child: const Text('Delete'), onPressed: () => Navigator.of(context).pop(true)),
+          ],
+        );
+      },
+    );
+
+    if (confirmed == true && mounted) {
+      final nav = Navigator.of(context);
+      await locator<PassService>().deletePass(widget.serialNumber!);
+      nav.pop();
+    }
+  }
+
+  Future<void> _handleShare() async {
+    final filePath = await locator<PassFileStorageService>().getPassFilePath(_pass.pass.serialNumber);
+
+    SharePlus.instance.share(ShareParams(files: [XFile(filePath)], subject: 'Sharing Pass: ${_pass.pass.description}'));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,6 +81,36 @@ class _PassPageState extends State<PassPage> {
         title: Text(_pass.pass.description),
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Theme.of(context).colorScheme.onPrimary,
+        actions: [
+          PopupMenuButton<String>(
+            onSelected: (value) {
+              if (value == 'delete') _handleDelete();
+              if (value == 'share') _handleShare();
+            },
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+              const PopupMenuItem<String>(
+                value: 'share',
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.share, color: Colors.blue), // Your icon here
+                    SizedBox(width: 8), // Spacing between icon and text
+                    Text('Share'),
+                  ],
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'delete',
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.delete_forever, color: Colors.red), // Your icon here
+                    SizedBox(width: 8), // Spacing between icon and text
+                    Text('Delete'),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
       body: RefreshIndicator(
         onRefresh: _handleRefresh,

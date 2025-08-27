@@ -24,6 +24,9 @@ abstract class PassFileStorageService {
 
   /// Deletes all pass files from storage.
   Future<void> deleteAllPassFiles();
+
+  /// Gets the full file path for a pass file.
+  Future<String> getPassFilePath(String serialNumber);
 }
 
 /// A concrete implementation of [PassFileStorageService] that uses the
@@ -112,5 +115,11 @@ class PassFileStorageServiceImpl implements PassFileStorageService {
     if (await dir.exists()) {
       await dir.delete(recursive: true);
     }
+  }
+
+  @override
+  Future<String> getPassFilePath(String serialNumber) async {
+    final dir = await _getPassesDirectory();
+    return p.join(dir.path, '$serialNumber.pkpass');
   }
 }

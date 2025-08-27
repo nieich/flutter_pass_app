@@ -33,7 +33,7 @@ abstract class PassService {
   Future<PkPass?> updatePass(String serialNumber);
 
   /// Removes a pass from storage and memory by its serial number.
-  Future<bool> removePass(String serialNumber);
+  Future<bool> deletePass(String serialNumber);
 
   /// Clears all passes from memory and storage.
   Future<void> clearAllPasses();
@@ -155,7 +155,7 @@ class PassServiceImpl implements PassService {
   }
 
   @override
-  Future<bool> removePass(String serialNumber) async {
+  Future<bool> deletePass(String serialNumber) async {
     final passExists = _passes.any((p) => p.pass.serialNumber == serialNumber);
 
     if (passExists) {
