@@ -1,7 +1,4 @@
-import 'package:flutter_pass_app/services/log_service.dart';
-import 'package:flutter_pass_app/services/pass_file_storage_service.dart';
-import 'package:flutter_pass_app/services/pass_import_service.dart';
-import 'package:flutter_pass_app/services/pass_service.dart';
+import 'services.dart';
 import 'package:get_it/get_it.dart';
 
 final GetIt locator = GetIt.instance;
@@ -28,4 +25,10 @@ void setupLocator() {
   locator.registerLazySingleton<PassService>(
     () => PassServiceImpl(locator<PassFileStorageService>(), locator<PassImportService>()),
   );
+
+  // Keep this registration as is
+  locator.registerLazySingleton(() => SharedPreferenceService());
+
+  // Update the SettingsService registration
+  locator.registerLazySingleton(() => SettingsService(locator<SharedPreferenceService>()));
 }

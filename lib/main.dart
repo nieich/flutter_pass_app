@@ -50,13 +50,9 @@ Future<void> main() async {
 
   await locator<PassService>().initialize();
 
-  final isRefreshActivated = await SettingsService().getBool(
-    SettingsService.isUpdateIntervalActivatedKey,
-    defaultValue: false,
-  );
+  final isRefreshActivated = await locator<SettingsService>().isUpdateIntervalActivated();
   if (isRefreshActivated) {
-    final frequenceString = await SettingsService().getString(SettingsService.updateIntervalKey, defaultValue: '60');
-    final frequence = int.parse(frequenceString);
+    final frequence = await locator<SettingsService>().getUpdateInterval();
 
     await Workmanager().initialize(callbackDispatcher);
 

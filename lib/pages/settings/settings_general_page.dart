@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pass_app/l10n/app_localizations.dart';
+import 'package:flutter_pass_app/services/service_locator.dart';
 import 'package:flutter_pass_app/services/settings_service.dart';
 
 class SettingsGeneralPage extends StatefulWidget {
@@ -10,7 +11,7 @@ class SettingsGeneralPage extends StatefulWidget {
 }
 
 class _SettingsGeneralPageState extends State<SettingsGeneralPage> {
-  final SettingsService _settingsService = SettingsService();
+  final SettingsService _settingsService = locator<SettingsService>();
 
   bool _isActivated = true; // Default value
   late TextEditingController _intervalController; // State variable for the text field
@@ -24,8 +25,8 @@ class _SettingsGeneralPageState extends State<SettingsGeneralPage> {
 
   // Load settings
   Future<void> _loadSettings() async {
-    final newIsActivated = await _settingsService.getBool(SettingsService.isUpdateIntervalActivatedKey, defaultValue: true);
-    final newIntervalText = await _settingsService.getString(SettingsService.updateIntervalKey, defaultValue: '60');
+    final newIsActivated = await _settingsService.isUpdateIntervalActivated();
+    final newIntervalText = await _settingsService.getUpdateInterval().then((value) => value.toString());
 
     setState(() {
       // Load the switch state, default to true if not found
@@ -37,8 +38,10 @@ class _SettingsGeneralPageState extends State<SettingsGeneralPage> {
 
   // Save settings
   Future<void> _saveSettings() async {
-    _settingsService.saveBool(SettingsService.isUpdateIntervalActivatedKey, _isActivated);
-    _settingsService.saveString(SettingsService.updateIntervalKey, _intervalController.text);
+    await _settingsService.setUpdateIntervalActivated(_isActivated);
+    await _settingsService.setUpdateInterval(
+      _intervalController.text.isEmpty ? 60 : int.parse(_intervalController.text),
+    );
   }
 
   @override
