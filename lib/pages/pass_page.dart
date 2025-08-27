@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pass_app/services/pass_service.dart';
 import 'package:flutter_pass_app/services/service_locator.dart';
 import 'package:flutter_pass_app/services/services.dart';
 import 'package:flutter_pass_app/utils/pass_functions.dart';
