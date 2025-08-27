@@ -123,7 +123,9 @@ Widget buildHeader(PkImage? logo, PassStructure pass, BasePassTheme passTheme, B
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
+                        const SizedBox(height: 5),
                         Text(field.label ?? '', style: passTheme.headerLabelStyle),
+                        const SizedBox(height: 5),
                         Text(_parseValue(field.value?.toString() ?? '', context), style: passTheme.headerTextStyle),
                       ],
                     ),
