@@ -3,32 +3,8 @@ import 'package:flutter_pass_app/l10n/app_localizations.dart';
 import 'package:flutter_pass_app/navigation/router.dart';
 import 'package:flutter_pass_app/services/service_locator.dart';
 import 'package:flutter_pass_app/services/services.dart';
-import 'package:flutter_pass_app/utils/constants.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:logging/logging.dart';
-import 'package:workmanager/workmanager.dart';
-
-// This callback needs to be a top-level or static function.
-@pragma('vm:entry-point')
-void callbackDispatcher() {
-  Workmanager().executeTask((task, inputData) async {
-    final logger = Logger('Workmanager');
-    logger.info("WorkManager: Executing background pass refresh.");
-    try {
-      // In a real app, initializing services for background isolates can be complex.
-      // You might need a dependency injection setup that can be initialized here.
-      // For this example, we assume the singleton can be accessed.
-      final service = locator<PassService>();
-      service.initialize();
-
-      service.updateAllPasses();
-      return true;
-    } catch (e) {
-      logger.severe("WorkManager error: $e");
-      return false;
-    }
-  });
-}
 
 Future<void> main() async {
   // Ensures that the plugin services are initialized before the app is executed.
@@ -37,7 +13,7 @@ Future<void> main() async {
   // Set up the service locator before running the app.
   setupLocator();
 
-  locator<SharedPreferenceService>().init();
+  await locator<SharedPreferenceService>().init();
 
   Logger.root.level = Level.ALL; // defaults to Level.INFO
   Logger.root.onRecord.listen((record) {
@@ -50,22 +26,8 @@ Future<void> main() async {
 
   await locator<PassService>().initialize();
 
-  final isRefreshActivated = await locator<SettingsService>().isUpdateIntervalActivated();
-  if (isRefreshActivated) {
-    final frequence = await locator<SettingsService>().getUpdateInterval();
-
-    await Workmanager().initialize(callbackDispatcher);
-
-    // Register a periodic task.
-    Workmanager().registerPeriodicTask(
-      Constants.workmanagerRefreshTaskId,
-      Constants.workmanagerRefreshTaskName,
-      frequency: Duration(minutes: frequence),
-      constraints: Constraints(networkType: NetworkType.connected),
-    );
-  } else {
-    Workmanager().cancelByUniqueName(Constants.workmanagerRefreshTaskName);
-  }
+  // Initialize and sync the background refresh service
+  await locator<BackgroundRefreshService>().initialize();
 
   runApp(const MyApp());
 }

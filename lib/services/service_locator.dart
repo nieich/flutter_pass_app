@@ -1,3 +1,5 @@
+import 'package:workmanager/workmanager.dart';
+
 import 'services.dart';
 import 'package:get_it/get_it.dart';
 
@@ -14,6 +16,14 @@ void setupLocator() {
   // By registering an interface (`LogService`) with a concrete implementation
   // (`LogServiceImpl`), we can easily swap it out for a mock in tests.
   locator.registerLazySingleton<LogService>(() => LogServiceImpl());
+
+  // Register Workmanager as a lazy singleton
+  locator.registerLazySingleton<Workmanager>(() => Workmanager());
+
+  // Register our new background service
+  locator.registerLazySingleton<BackgroundRefreshService>(
+    () => BackgroundRefreshService(workmanager: locator<Workmanager>(), settingsService: locator<SettingsService>()),
+  );
 
   // You can now do the same for your other services.
   // This assumes you have created interfaces and implementations for them.
