@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_pass_app/Themes/eventicket_pass_theme.dart';
 import 'package:flutter_pass_app/utils/pass_functions.dart';
@@ -14,12 +16,24 @@ class Thumbnail extends StatelessWidget {
     if (thumbnail == null) return const SizedBox.shrink();
 
     final devicePixelRatio = MediaQuery.devicePixelRatioOf(context);
+    final imageData = thumbnail!.fromMultiplier(devicePixelRatio.toInt() + 1);
 
-    return Image.memory(
-      thumbnail!.fromMultiplier(devicePixelRatio.toInt() + 1),
-      fit: BoxFit.contain,
-      width: 90,
-      height: 90,
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          PageRouteBuilder(
+            opaque: false,
+            barrierDismissible: true,
+            pageBuilder: (BuildContext context, _, __) {
+              return _EnlargedThumbnailView(imageData: imageData);
+            },
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              return FadeTransition(opacity: animation, child: child);
+            },
+          ),
+        );
+      },
+      child: Image.memory(imageData, fit: BoxFit.contain, width: 90, height: 90),
     );
   }
 }
@@ -45,23 +59,21 @@ Widget _buildEventTicketPass(EventTicketTheme passTheme, PkPass pass, PassStruct
       //Divider
       Divider(color: passTheme.foregroundColor.withValues(alpha: 0.4), indent: 20, endIndent: 20),
 
-      //AllFields
+      // Primary Fields
+      Padding(padding: const EdgeInsets.all(20.0), child: _buildPrimaryFields(eventTicket, passTheme)),
+
+      // Secondary/Auxiliary Fields and Thumbnail
       Padding(
-        padding: const EdgeInsets.all(20.0),
-        // Center the block of fields, while keeping the text inside left-aligned.
+        padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
         child: Row(
-          // Changed to Row directly, Center is not needed around Row for this.
-          crossAxisAlignment: CrossAxisAlignment.start, // Align content to the top
+          crossAxisAlignment: CrossAxisAlignment.end, // Align content to the bottom
           children: [
             Expanded(
               // The fields will take up available space
-              child: _buildAllFields(eventTicket, passTheme),
+              child: _buildSecondaryAndAuxiliaryFields(eventTicket, passTheme),
             ),
             // Add some spacing between the fields and the thumbnail
             const SizedBox(width: 10),
-            // The thumbnail will take its intrinsic size, but if too large, it might still overflow if not constrained internally.
-            // Assuming Thumbnail internally handles its size or you want it to be a specific size.
-            // If the thumbnail is an Image widget, ensure it's not trying to render larger than its parent.
             Thumbnail(thumbnail: pass.thumbnail),
           ],
         ),
@@ -77,8 +89,46 @@ Widget _buildEventTicketPass(EventTicketTheme passTheme, PkPass pass, PassStruct
   );
 }
 
-// New helper function to build all field widgets
-Widget _buildAllFields(PassStructure eventTicket, EventTicketTheme theme) {
+class _EnlargedThumbnailView extends StatelessWidget {
+  const _EnlargedThumbnailView({required this.imageData});
+
+  final Uint8List imageData;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black.withOpacity(0.85),
+      body: GestureDetector(
+        onTap: () => Navigator.of(context).pop(),
+        child: Center(
+          child: InteractiveViewer(panEnabled: false, minScale: 1.0, maxScale: 4.0, child: Image.memory(imageData)),
+        ),
+      ),
+    );
+  }
+}
+
+// New helper function to build primary fields, often laid out in a row
+Widget _buildPrimaryFields(PassStructure eventTicket, EventTicketTheme theme) {
+  final primaryFields = eventTicket.primaryFields;
+  if (primaryFields == null || primaryFields.isEmpty) {
+    return const SizedBox.shrink();
+  }
+
+  return Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: primaryFields
+        .map(
+          (field) => Expanded(
+            child: _buildEventField(field, labelStyle: theme.primaryLabelStyle, valueStyle: theme.primaryTextStyle),
+          ),
+        )
+        .toList(),
+  );
+}
+
+// Renamed and modified to handle secondary and auxiliary fields
+Widget _buildSecondaryAndAuxiliaryFields(PassStructure eventTicket, EventTicketTheme theme) {
   final List<Widget> widgets = [];
 
   // Helper to add a list of fields to the main widget list
@@ -98,8 +148,6 @@ Widget _buildAllFields(PassStructure eventTicket, EventTicketTheme theme) {
     }
   }
 
-  //primaryFields
-  addFields(eventTicket.primaryFields, labelStyle: theme.primaryLabelStyle, valueStyle: theme.primaryTextStyle);
   //secondaryFields
   addFields(eventTicket.secondaryFields, labelStyle: theme.secondaryLabelStyle, valueStyle: theme.secondaryTextStyle);
   //auxiliaryFields
