@@ -66,7 +66,7 @@ class BackgroundRefreshService {
 
     _logger.info('Registering periodic task with frequency: $frequency.');
     await _workmanager.registerPeriodicTask(
-      Constants.workmanagerRefreshTaskId,
+      Constants.workmanagerRefreshTaskUniqueName,
       Constants.workmanagerRefreshTaskName,
       frequency: frequency,
       existingWorkPolicy: ExistingPeriodicWorkPolicy.replace,
@@ -76,6 +76,6 @@ class BackgroundRefreshService {
 
   Future<void> _cancelPeriodicTask() async {
     _logger.info('Cancelling background refresh task.');
-    await _workmanager.cancelByUniqueName(Constants.workmanagerRefreshTaskName);
+    await _workmanager.cancelByUniqueName(Constants.workmanagerRefreshTaskUniqueName);
   }
 }
