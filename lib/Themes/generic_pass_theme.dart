@@ -4,8 +4,8 @@ import 'package:flutter_pass_app/utils/constants.dart';
 import 'package:flutter_pass_app/utils/helper_functions.dart';
 import 'package:passkit/passkit.dart';
 
-class EventTicketTheme extends ThemeExtension<EventTicketTheme> implements BasePassTheme {
-  EventTicketTheme({
+class GenericPassTheme extends ThemeExtension<GenericPassTheme> implements BasePassTheme {
+  GenericPassTheme({
     required this.backgroundColor,
     required this.foregroundColor,
     required this.labelColor,
@@ -21,19 +21,19 @@ class EventTicketTheme extends ThemeExtension<EventTicketTheme> implements BaseP
     required this.auxiliaryTextStyle,
   });
 
-  factory EventTicketTheme.fromPass(PkPass pass) {
+  factory GenericPassTheme.fromPass(PkPass pass) {
     final backgroundColor = getColorFromRGBA(pass.pass.backgroundColor?.rgba, Constants.defaultBackgroundColor);
     final foregroundColor = getColorFromRGBA(pass.pass.foregroundColor?.rgba, Constants.defaultForegroundColor);
-    final labelColor = getColorFromRGBA(pass.pass.labelColor?.rgba, Colors.white);
+    final labelColor = getColorFromRGBA(pass.pass.labelColor?.rgba, Colors.black);
     final foregroundTextStyle = TextStyle(color: foregroundColor);
     final labelTextStyle = TextStyle(color: labelColor);
 
-    return EventTicketTheme(
+    return GenericPassTheme(
       backgroundColor: backgroundColor,
       foregroundColor: foregroundColor,
       labelColor: labelColor,
-      barcodeTextStyle: TextStyle(color: foregroundColor, fontSize: 11),
       logoTextStyle: foregroundTextStyle.copyWith(fontWeight: FontWeight.w600, fontSize: 16),
+      barcodeTextStyle: TextStyle(color: foregroundColor, fontSize: 11),
       headerLabelStyle: labelTextStyle.copyWith(fontSize: 11, fontWeight: FontWeight.w600),
       headerTextStyle: foregroundTextStyle.copyWith(fontSize: 17, height: 0.9),
       primaryLabelStyle: TextStyle(color: foregroundColor, fontSize: 11, fontWeight: FontWeight.w600),
@@ -72,12 +72,12 @@ class EventTicketTheme extends ThemeExtension<EventTicketTheme> implements BaseP
   final TextStyle auxiliaryTextStyle;
 
   @override
-  ThemeExtension<EventTicketTheme> copyWith() {
+  ThemeExtension<GenericPassTheme> copyWith() {
     return this;
   }
 
   @override
-  ThemeExtension<EventTicketTheme> lerp(covariant ThemeExtension<EventTicketTheme>? other, double t) {
+  ThemeExtension<GenericPassTheme> lerp(covariant ThemeExtension<GenericPassTheme>? other, double t) {
     return this;
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pass_app/l10n/app_localizations.dart';
 import 'package:flutter_pass_app/navigation/routes.dart';
 import 'package:flutter_pass_app/services/pass_service.dart';
+import 'package:flutter_pass_app/services/service_locator.dart';
 import 'package:flutter_pass_app/utils/pass_functions.dart';
 import 'package:go_router/go_router.dart';
 import 'package:passkit/passkit.dart';
@@ -15,7 +16,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   // Use the singleton instances of your services
-  final _passService = PassService.instance;
+  final _passService = locator<PassService>();
 
   // Local state to hold the list of passes
   List<PkPass> _passes = [];
@@ -68,9 +69,12 @@ class _HomePageState extends State<HomePage> {
       );
     }
 
-    return ListView.builder(
-      itemCount: _passes.length,
-      itemBuilder: (context, index) => buildPassCard(_passes[index], context),
+    return Padding(
+      padding: const EdgeInsets.only(top: 10.0),
+      child: ListView.builder(
+        itemCount: _passes.length,
+        itemBuilder: (context, index) => buildPassCard(_passes[index], context),
+      ),
     );
   }
 

@@ -1,59 +1,108 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pass_app/Themes/base_pass_theme.dart';
+import 'package:flutter_pass_app/Themes/boarding_pass_theme.dart';
+import 'package:flutter_pass_app/Themes/coupon_pass_theme.dart';
+import 'package:flutter_pass_app/Themes/eventicket_pass_theme.dart';
+import 'package:flutter_pass_app/Themes/generic_pass_theme.dart';
+import 'package:flutter_pass_app/Themes/storecard_pass_theme.dart';
+import 'package:flutter_pass_app/l10n/app_localizations.dart';
 import 'package:flutter_pass_app/utils/barcode_functions.dart';
+import 'package:flutter_pass_app/widgets/base_pass_widget.dart';
 import 'package:flutter_pass_app/widgets/boarding_pass_widget.dart';
 import 'package:flutter_pass_app/widgets/coupon_pass_widget.dart';
 import 'package:flutter_pass_app/widgets/eventicket_pass_widget.dart';
 import 'package:flutter_pass_app/widgets/generic_pass_widget.dart';
 import 'package:flutter_pass_app/widgets/storecard_pass_widget.dart';
 import 'package:passkit/passkit.dart';
+import 'package:intl/intl.dart';
 
 Widget getPassWidget(PkPass pass, BuildContext context) {
   switch (pass.type) {
     case PassType.boardingPass:
       return boardingPassWidget(pass, context);
-    //return BoardingPassWidget(pass: pass);
     case PassType.coupon:
       return couponWidget(pass, context);
-    //return CouponWidget(pass: pass);
     case PassType.eventTicket:
       return eventTicketWidget(pass, context);
     case PassType.storeCard:
       return storeCardWidget(pass, context);
-    //return StoreCardWidget(pass: pass);
     case PassType.generic:
       return genericPassWidget(pass, context);
-    //return GenericWidget(pass: pass);
   }
 }
 
-Icon getPassCardIcon(PkPass pass) {
-  switch (pass.type) {
+Icon getPassCardIcon(PassType type, Color color) {
+  switch (type) {
     case PassType.boardingPass:
-      return const Icon(Icons.airplane_ticket, color: Colors.blue, size: 40);
+      return Icon(Icons.airplane_ticket, color: color, size: 40);
     case PassType.coupon:
-      return const Icon(Icons.card_giftcard, color: Colors.green, size: 40);
+      return Icon(Icons.card_giftcard, color: color, size: 40);
     case PassType.eventTicket:
-      return const Icon(Icons.event, color: Colors.orange, size: 40);
+      return Icon(Icons.event, color: color, size: 40);
     case PassType.storeCard:
-      return const Icon(Icons.store, color: Colors.red, size: 40);
+      return Icon(Icons.store, color: color, size: 40);
     case PassType.generic:
-      return const Icon(Icons.credit_card, color: Colors.purple, size: 40);
+      return Icon(Icons.credit_card, color: color, size: 40);
   }
 }
 
 Widget buildPassCard(PkPass pass, BuildContext context) {
   switch (pass.type) {
     case PassType.boardingPass:
-      return buildBoardingPassCard(pass, context);
+      final theme = BoardinPassTheme.fromPass(pass);
+      return basePassCardWidget(
+        pass.type,
+        pass.pass.boardingPass?.primaryFields?.firstOrNull,
+        pass.pass.organizationName,
+        pass.pass.serialNumber,
+        pass.pass.barcodes?.firstOrNull ?? pass.pass.barcode!,
+        theme,
+        context,
+      );
     case PassType.coupon:
-      return buildCouponCard(pass, context);
+      final theme = CouponPassTheme.fromPass(pass);
+      return basePassCardWidget(
+        pass.type,
+        pass.pass.coupon?.primaryFields?.firstOrNull,
+        pass.pass.organizationName,
+        pass.pass.serialNumber,
+        pass.pass.barcodes?.firstOrNull ?? pass.pass.barcode!,
+        theme,
+        context,
+      );
     case PassType.eventTicket:
-      return buildEventTicketCard(pass, context);
+      final theme = EventTicketTheme.fromPass(pass);
+      return basePassCardWidget(
+        pass.type,
+        pass.pass.eventTicket?.primaryFields?.firstOrNull,
+        pass.pass.organizationName,
+        pass.pass.serialNumber,
+        pass.pass.barcodes?.firstOrNull ?? pass.pass.barcode!,
+        theme,
+        context,
+      );
     case PassType.storeCard:
-      return buildStoreCardCard(pass, context);
+      final theme = StorecardPassTheme.fromPass(pass);
+      return basePassCardWidget(
+        pass.type,
+        pass.pass.storeCard?.primaryFields?.firstOrNull,
+        pass.pass.organizationName,
+        pass.pass.serialNumber,
+        pass.pass.barcodes?.firstOrNull ?? pass.pass.barcode!,
+        theme,
+        context,
+      );
     case PassType.generic:
-      return buildGenericPassCard(pass, context);
+      final theme = GenericPassTheme.fromPass(pass);
+      return basePassCardWidget(
+        pass.type,
+        pass.pass.generic?.primaryFields?.firstOrNull,
+        pass.pass.organizationName,
+        pass.pass.serialNumber,
+        pass.pass.barcodes?.firstOrNull ?? pass.pass.barcode!,
+        theme,
+        context,
+      );
   }
 }
 
@@ -74,8 +123,10 @@ Widget buildHeader(PkImage? logo, PassStructure pass, BasePassTheme passTheme, B
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
+                        const SizedBox(height: 5),
                         Text(field.label ?? '', style: passTheme.headerLabelStyle),
-                        Text(field.value?.toString() ?? '', style: passTheme.headerTextStyle),
+                        const SizedBox(height: 5),
+                        Text(_parseValue(field.value?.toString() ?? '', context), style: passTheme.headerTextStyle),
                       ],
                     ),
                   ),
@@ -86,6 +137,18 @@ Widget buildHeader(PkImage? logo, PassStructure pass, BasePassTheme passTheme, B
       ),
     ],
   );
+}
+
+//try to parse the value to a date
+String _parseValue(String value, BuildContext context) {
+  try {
+    // Passkit dates are often in ISO 8601 format.
+    final dateTime = DateTime.parse(value);
+    // Format the date. You can adjust the format as needed.
+    return DateFormat('dd/MM/yyyy hh:mm', AppLocalizations.of(context)!.localeName).format(dateTime);
+  } on FormatException {
+    return value;
+  }
 }
 
 Widget buildPassBarcode(Barcode barcode, BasePassTheme passTheme, BuildContext context) {
@@ -111,7 +174,7 @@ Widget buildPassBarcode(Barcode barcode, BasePassTheme passTheme, BuildContext c
       ),
       const SizedBox(height: 10),
       Center(child: Text(barcode.altText ?? '', style: passTheme.barcodeTextStyle)),
-      const SizedBox(height: 40),
+      const SizedBox(height: 10),
     ],
   );
 }

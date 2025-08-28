@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_pass_app/services/pass_file_storage_service.dart';
 import 'package:passkit/passkit.dart';
 
@@ -10,44 +13,106 @@ class InvalidFileTypeException implements Exception {
   String toString() => message;
 }
 
-/// A service that handles the entire workflow of importing a .pkpass file.
-class PassImportService {
-  // Singleton setup
-  PassImportService._privateConstructor();
-  static final PassImportService instance = PassImportService._privateConstructor();
+/// An exception thrown when there's an error parsing the .pkpass file.
+class PassParsingException implements Exception {
+  final String message;
+  PassParsingException(this.message);
+  @override
+  String toString() => message;
+}
 
-  final _storageService = PassFileStorageService.instance;
+/// An exception thrown for unexpected errors during the import process.
+class PassImportFailedException implements Exception {
+  final String message;
+  PassImportFailedException(this.message);
+  @override
+  String toString() => message;
+}
 
-  /// Opens a file picker, lets the user choose a .pkpass file,
-  /// parses it, and saves it to local storage.
-  ///
-  /// Returns a tuple containing the imported [PKPass] and the original
-  /// file name on success.
+/// An abstract interface for a service that handles the workflow of importing a
+/// .pkpass file.
+abstract class PassImportService {
+  /// Opens a file picker for the user to select a .pkpass file.
   /// Returns `null` if the user cancels the file picker.
   /// Throws [InvalidFileTypeException] if the file is not a .pkpass.
-  /// Throws other exceptions if parsing or saving fails.
+  /// Throws [PassParsingException] if parsing fails.
+  /// Throws other exceptions for unexpected errors during the process.
+  Future<(PkPass, String)?> importPassFromFile();
+}
+
+/// A concrete implementation of [PassImportService].
+class PassImportServiceImpl implements PassImportService {
+  final PassFileStorageService _storageService;
+
+  PassImportServiceImpl(this._storageService);
+
+  // Define a constant for the .pkpass file extension
+  static const String _pkpassExtension = 'pkpass';
+
+  @override
   Future<(PkPass, String)?> importPassFromFile() async {
-    // 1. Let the user pick a file.
-    final result = await FilePicker.platform.pickFiles(type: FileType.any, withData: true);
+    try {
+      // 1. Let the user pick a .pkpass file.
+      final file = await _pickFile();
 
-    // Return null if the user cancelled the picker.
-    if (result == null || result.files.single.bytes == null) {
-      return null;
+      // This should not happen if the picker wasn't cancelled, but it's a good safeguard.
+      if (file == null) {
+        return null;
+      }
+
+      final filePath = file.path;
+
+      // This should not happen if the picker wasn't cancelled, but it's a good safeguard.
+      if (filePath == null) {
+        return null;
+      }
+
+      // 2. Read file bytes from path
+      if (file.extension?.toLowerCase() != _pkpassExtension) {
+        throw InvalidFileTypeException('Invalid file type. Please select a .pkpass file.');
+      }
+
+      // 2. Read file bytes from path.
+      final Uint8List fileBytes = await File(filePath).readAsBytes();
+
+      // 3. Parse the file to get the serial number for the filename.
+      final pass = _parsePass(fileBytes);
+
+      // 4. Save the original file bytes using the storage service.
+      await _storageService.savePassFile(serialNumber: pass.pass.serialNumber, bytes: fileBytes);
+
+      return (pass, file.name);
+    } on InvalidFileTypeException {
+      // Re-throw the specific exception to be handled by the UI.
+      rethrow;
+    } on PassParsingException catch (e) {
+      // Catch specific PkPass parsing errors
+      throw PassParsingException('Failed to parse the .pkpass file: ${e.message}');
+    } catch (e, s) {
+      // General catch-all for anything not caught by specific Exception
+      // Catch any other unexpected errors during the process.
+      if (kDebugMode) {
+        debugPrint('Error importing pass: $e\n$s');
+      }
+      // Rethrow a generic exception to be shown to the user.
+      throw PassImportFailedException('An unexpected error occurred while importing the pass.');
     }
+  }
 
-    final file = result.files.single;
+  /// Opens a file picker for the user to select a .pkpass file.
+  Future<PlatformFile?> _pickFile() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: [_pkpassExtension],
+      withData: false, // More memory efficient, we'll read from the path.
+    );
 
-    // 2. Validate the file type.
-    if (file.extension?.toLowerCase() != 'pkpass') {
-      throw InvalidFileTypeException('Invalid file type. Please select a .pkpass file.');
-    }
+    return result?.files.single;
+  }
 
-    // 3. Parse the file to get the serial number for the filename.
-    final pass = PkPass.fromBytes(file.bytes!, skipChecksumVerification: true, skipSignatureVerification: true);
-
-    // 4. Save the original file bytes using the new storage service.
-    await _storageService.savePassFile(serialNumber: pass.pass.serialNumber, bytes: file.bytes!);
-
-    return (pass, file.name);
+  /// Parses the pass data from bytes.
+  PkPass _parsePass(Uint8List bytes) {
+    // Skipping verification is faster and avoids needing certificates just for import.
+    return PkPass.fromBytes(bytes, skipChecksumVerification: true, skipSignatureVerification: true);
   }
 }

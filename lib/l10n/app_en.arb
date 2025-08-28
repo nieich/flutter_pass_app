@@ -36,5 +36,9 @@
   "passParseError": "Error parsing pass",
   "@passParseError": {
     "description": "Error message for failed pass parsing"
-  }
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings Title"
+  }  
 }

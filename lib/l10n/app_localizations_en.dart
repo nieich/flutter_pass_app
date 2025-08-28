@@ -34,4 +34,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get passParseError => 'Error parsing pass';
+
+  @override
+  String get settings => 'Settings';
 }
