@@ -9,7 +9,7 @@ bw.BarcodeWidget buildBarCodeImage(Barcode barcode, {double size = 200}) {
     case PkPassBarcodeType.code128:
       return bw.BarcodeWidget(barcode: bw.Barcode.code128(), data: barcode.message, width: size, height: size);
     case PkPassBarcodeType.pdf417:
-      return bw.BarcodeWidget(barcode: bw.Barcode.pdf417(), data: barcode.message, width: size, height: 200);
+      return bw.BarcodeWidget(barcode: bw.Barcode.pdf417(), data: barcode.message, width: size, height: size);
     case PkPassBarcodeType.aztec:
       bw.BarcodeWidget(barcode: bw.Barcode.aztec(), data: barcode.message, width: size, height: size);
   }
@@ -29,6 +29,8 @@ Dialog buildBarCodeDialog(Barcode barcode, BuildContext context) {
   return Dialog(
     // This reduces the margin around the dialog, making it larger.
     insetPadding: const EdgeInsets.all(dialogMargin),
+    backgroundColor: Colors.white, //neds to be white for barcode visibility
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
     child: Padding(
       padding: const EdgeInsets.all(contentPadding),
       child: buildBarCodeImage(barcode, size: qrSize),
