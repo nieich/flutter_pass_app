@@ -1,3 +1,4 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pass_app/l10n/app_localizations.dart';
 import 'package:flutter_pass_app/navigation/router.dart';
@@ -38,14 +39,33 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Flutter Demo',
-      theme: ThemeData.light(useMaterial3: true),
-      darkTheme: ThemeData.dark(useMaterial3: true),
-      themeMode: ThemeMode.dark,
-      routerConfig: router,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
+    return DynamicColorBuilder(
+      builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+        ColorScheme lightColorScheme;
+        ColorScheme darkColorScheme;
+
+        if (lightDynamic != null && darkDynamic != null) {
+          // On Android S+ devices, use the dynamic color scheme.
+          // harmonized() ensures that the dynamic colors will work well
+          // with any custom colors in your app.
+          lightColorScheme = lightDynamic.harmonized();
+          darkColorScheme = darkDynamic.harmonized();
+        } else {
+          // Otherwise, use a fallback scheme based on a seed color.
+          lightColorScheme = ColorScheme.fromSeed(seedColor: Colors.indigo);
+          darkColorScheme = ColorScheme.fromSeed(seedColor: Colors.indigo, brightness: Brightness.dark);
+        }
+
+        return MaterialApp.router(
+          title: 'Flutter Pass App',
+          theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
+          darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
+          themeMode: ThemeMode.system,
+          routerConfig: router,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+        );
+      },
     );
   }
 }
