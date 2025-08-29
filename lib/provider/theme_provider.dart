@@ -19,7 +19,7 @@ class ThemeProvider with ChangeNotifier {
 
   Color _seedColor = Colors.deepPurple;
   ThemeMode _themeMode = ThemeMode.system;
-  ColorMode _colorMode = ColorMode.seed;
+  ColorMode _colorMode = ColorMode.system;
 
   // Individual colors
   Color _primary = Colors.blueAccent;
