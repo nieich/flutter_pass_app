@@ -66,8 +66,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get colorModeSystem => 'System Color';
 
   @override
-  String get colorModeSystemDescription =>
-      'Use the system\'s default color mode';
+  String get colorModeSystemDescription => 'Use the system\'s color';
 
   @override
   String get colorModeSeed => 'Seed Color';

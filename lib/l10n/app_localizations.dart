@@ -209,7 +209,7 @@ abstract class AppLocalizations {
   /// Description for the system color mode selection
   ///
   /// In en, this message translates to:
-  /// **'Use the system\'s default color mode'**
+  /// **'Use the system\'s color'**
   String get colorModeSystemDescription;
 
   /// Seed color for the color mode
