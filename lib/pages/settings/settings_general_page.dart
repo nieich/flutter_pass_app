@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pass_app/l10n/app_localizations.dart';
+import 'package:flutter_pass_app/services/background_refresh_service.dart';
 import 'package:flutter_pass_app/services/service_locator.dart';
 import 'package:flutter_pass_app/services/settings_service.dart';
 
@@ -12,8 +13,9 @@ class SettingsGeneralPage extends StatefulWidget {
 
 class _SettingsGeneralPageState extends State<SettingsGeneralPage> {
   final SettingsService _settingsService = locator<SettingsService>();
+  final BackgroundRefreshService _backgroundRefreshService = locator<BackgroundRefreshService>();
 
-  bool _isActivated = true; // Default value
+  bool _isRefreshEnabled = false; // Default value
   late TextEditingController _intervalController; // State variable for the text field
 
   @override
@@ -28,20 +30,26 @@ class _SettingsGeneralPageState extends State<SettingsGeneralPage> {
     final newIsActivated = await _settingsService.isUpdateIntervalActivated();
     final newIntervalText = await _settingsService.getUpdateInterval().then((value) => value.toString());
 
-    setState(() {
-      // Load the switch state, default to true if not found
-      _isActivated = newIsActivated;
-      // Load the interval text, default to '60' if not found
-      _intervalController.text = newIntervalText;
-    });
+    if (mounted) {
+      setState(() {
+        // Load the switch state, default to true if not found
+        _isRefreshEnabled = newIsActivated;
+        // Load the interval text, default to '60' if not found
+        _intervalController.text = newIntervalText;
+      });
+    }
   }
 
-  // Save settings
-  Future<void> _saveSettings() async {
-    await _settingsService.setUpdateIntervalActivated(_isActivated);
-    await _settingsService.setUpdateInterval(
-      _intervalController.text.isEmpty ? 60 : int.parse(_intervalController.text),
-    );
+  // Save settings and sync the background service
+  Future<void> _saveSettingsAndSync() async {
+    await _settingsService.setUpdateIntervalActivated(_isRefreshEnabled);
+
+    // Use tryParse for safety, defaulting to 60 if parsing fails or text is empty.
+    final interval = int.tryParse(_intervalController.text) ?? 60;
+    await _settingsService.setUpdateInterval(interval);
+
+    // Crucial step: Tell the background service to update its state based on the new settings.
+    await _backgroundRefreshService.syncStateWithSettings();
   }
 
   @override
@@ -65,20 +73,20 @@ class _SettingsGeneralPageState extends State<SettingsGeneralPage> {
             _buildGeneralSettingsTileSwitchTextField(
               context,
               _intervalController, // Pass the controller
-              _isActivated,
+              _isRefreshEnabled,
               (value) {
                 setState(() {
                   // Update UI immediately
-                  _isActivated = value; // Update state and trigger rebuild
+                  _isRefreshEnabled = value; // Update state and trigger rebuild
                 });
-                _saveSettings(); // Save the new state
+                _saveSettingsAndSync(); // Save the new state and sync service
               },
               () {
-                _saveSettings(); // Save the current text field value
-                // Optional: Show a confirmation message
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Einstellungen gespeichert!')), // "Settings saved!"
-                );
+                _saveSettingsAndSync(); // Save the current text field value and sync service
+                if (mounted) {
+                  // Optional: Show a confirmation message (assuming l10n.settingsSaved exists)
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Settings saved')));
+                }
               },
             ),
           ],

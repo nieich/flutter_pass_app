@@ -40,5 +40,93 @@
   "settings": "Settings",
   "@settings": {
     "description": "Settings Title"
-  }  
+  },
+  "theme": "Theme",
+  "@theme": {
+    "description": "Header for the theme selection"
+  },
+  "themeColor": "Design Color",
+  "@themeColor": {
+    "description": "Header for the theme color selection"
+  },
+  "themeColorDescription": "Choose a color for the app design",
+  "@themeColorDescription": {
+    "description": "Description for the theme color selection"
+  },
+  "themeMode": "Theme Mode",
+  "@themeMode": {
+    "description": "Header for the theme mode selection"
+  },
+  "systemTheme": "System",
+  "@systemTheme": {
+    "description": "Use the system's default theme"
+  },
+  "lightTheme": "Light",
+  "@lightTheme": {
+    "description": "Light theme for the app"
+  },
+  "darkTheme": "Dark",
+  "@darkTheme": {
+    "description": "Dark theme for the app"
+  },
+  "colorMode": "Color Mode",
+  "@colorMode": {
+    "description": "Header for the color mode selection"
+  },
+  "colorModeSystem": "System Color",
+  "@colorModeSystem": {
+    "description": "System color for the color mode"
+  }, 
+  "colorModeSystemDescription": "Use the system's color",
+  "@colorModeSystemDescription": {
+    "description": "Description for the system color mode selection"
+  }, 
+  "colorModeSeed": "Seed Color",
+  "@colorModeSeed": {
+    "description": "Seed color for the color mode"
+  },
+  "colorModeIndividual": "Individual Color",
+  "@colorModeIndividual": {
+    "description": "Individual color for the color mode"
+  },
+  "individualColorMode": "Individual Color Mode",
+  "@individualColorMode": {
+    "description": "Header for the individual color mode selection"
+  },
+  "individualColorModeDescription": "Select a custom color for each element in the app.",
+  "@individualColorModeDescription": {
+    "description": "Description for the individual color mode selection"
+  },
+  "primaryColor": "Primary Color",
+  "@primaryColor": {
+    "description": "Header for the primary color selection"
+  },
+  "onPrimaryColor": "On Primary Color",
+  "@onPrimaryColor": {
+    "description": "Header for the on primary color selection"
+  },
+  "secondaryColor": "Secondary Color",
+  "@secondaryColor": {
+    "description": "Header for the secondary color selection"
+  },
+  "onSecondaryColor": "On Secondary Color",
+  "@onSecondaryColor": {
+    "description": "Header for the on secondary color selection"
+  },
+  "surfaceColor": "Surface Color",
+  "@surfaceColor": {
+    "description": "Header for the surface color selection"
+  },
+  "onSurfaceColor": "On Surface Color",
+  "@onSurfaceColor": {
+    "description": "Header for the on surface color selection"
+  },
+  "errorColor": "Error Color",
+  "@errorColor": {
+    "description": "Header for the error color selection"
+  },
+  "onErrorColor": "On Error Color",
+  "@onErrorColor": {
+    "description": "Header for the on error color selection"
+  }
 }
