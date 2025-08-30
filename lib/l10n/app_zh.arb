@@ -1,0 +1,228 @@
+{
+  "@@locale": "zh",
+  "title": "通行证",
+  "@title": {
+    "description": "Title of the app"
+  },
+  "ok": "好的",
+  "@ok": {
+    "description": "OK button text"
+  },
+  "cancel": "取消",
+  "@cancel": {
+    "description": "Cancel button text"
+  },
+  "delete": "删除",
+  "@delete": {
+    "description": "Delete button text"
+  },
+  "share": "分享",
+  "@share": {
+    "description": "Share button text"
+  },
+  "addPassFromFile": "从文件添加通行证",
+  "@addPassFromFile": {
+    "description": "Tooltip for the add pass button"
+  },
+  "pickedFile": "已选择文件：{fileName}",
+  "@pickedFile": {
+    "description": "Snackbar message after picking a file",
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidFileType": "无效的文件类型。请选择一个 .pkpass 文件。",
+  "@invalidFileType": {
+    "description": "Error message for invalid file type selection"
+  },
+  "sharingPass": "分享通行证",
+  "@sharingPass": {
+    "description": "Tooltip for the share pass button"
+  },
+  "noPasses": "没有通行证",
+  "@noPasses": {
+    "description": "Message when no passes are available"
+  },
+  "passParseError": "解析通行证时出错",
+  "@passParseError": {
+    "description": "Error message for failed pass parsing"
+  },
+  "settings": "设置",
+  "@settings": {
+    "description": "Title of the settings"
+  },
+  "theme": "主题",
+  "@theme": {
+    "description": "Heading for theme selection"
+  },
+  "themeColor": "主题颜色",
+  "@themeColor": {
+    "description": "Heading for theme color selection"
+  },
+  "themeColorDescription": "为应用选择一个主题颜色",
+  "@themeColorDescription": {
+    "description": "Description for theme color selection"
+  },
+  "themeMode": "主题模式",
+  "@themeMode": {
+    "description": "Heading for theme mode selection"
+  },
+  "systemTheme": "系统",
+  "@systemTheme": {
+    "description": "Use the default theme of the system"
+  },
+  "lightTheme": "浅色",
+  "@lightTheme": {
+    "description": "Light theme for the app"
+  },
+  "darkTheme": "深色",
+  "@darkTheme": {
+    "description": "Dark theme for the app"
+  },
+  "colorMode": "颜色模式",
+  "@colorMode": {
+    "description": "Heading for color mode selection"
+  },
+  "colorModeSystem": "系统颜色",
+  "@colorModeSystem": {
+    "description": "System color for the color mode"
+  },
+  "colorModeSystemDescription": "使用系统颜色",
+  "@colorModeSystemDescription": {
+    "description": "Description for system color mode selection"
+  },
+  "colorModeSeed": "种子颜色",
+  "@colorModeSeed": {
+    "description": "Seed color for the color mode"
+  },
+  "colorModeIndividual": "自定义颜色",
+  "@colorModeIndividual": {
+    "description": "Individual color for the color mode"
+  },
+  "individualColorMode": "自定义颜色模式",
+  "@individualColorMode": {
+    "description": "Heading for individual color mode selection"
+  },
+  "individualColorModeDescription": "为应用中的每个元素选择自定义颜色。",
+  "@individualColorModeDescription": {
+    "description": "Description for individual color mode selection"
+  },
+  "primaryColor": "主色",
+  "@primaryColor": {
+    "description": "Heading for primary color selection"
+  },
+  "onPrimaryColor": "主色上的颜色",
+  "@onPrimaryColor": {
+    "description": "Heading for on primary color selection"
+  },
+  "secondaryColor": "次要颜色",
+  "@secondaryColor": {
+    "description": "Heading for secondary color selection"
+  },
+  "onSecondaryColor": "次要颜色上的颜色",
+  "@onSecondaryColor": {
+    "description": "Heading for on secondary color selection"
+  },
+  "surfaceColor": "表面颜色",
+  "@surfaceColor": {
+    "description": "Heading for surface color selection"
+  },
+  "onSurfaceColor": "表面颜色上的颜色",
+  "@onSurfaceColor": {
+    "description": "Heading for on surface color selection"
+  },
+  "errorColor": "错误颜色",
+  "@errorColor": {
+    "description": "Heading for error color selection"
+  },
+  "onErrorColor": "错误颜色上的颜色",
+  "@onErrorColor": {
+    "description": "Heading for on error color selection"
+  },
+  "passDoesNotSupportUpdates": "此通行证不支持更新。",
+  "@passDoesNotSupportUpdates": {
+    "description": "Error message for passes that do not support updates"
+  },
+  "passUpdateFailedOrNoUpdateAvailable": "通行证更新失败或没有可用更新。",
+  "@passUpdateFailedOrNoUpdateAvailable": {
+    "description": "Error message for failed pass update or no update available"
+  },
+  "deletePass": "删除通行证",
+  "@deletePass": {
+    "description": "Tooltip for the delete pass button"
+  },
+  "deletePassConfirmation": "您确定要删除此通行证吗？此操作无法撤销。",
+  "@deletePassConfirmation": {
+    "description": "Confirmation message for deleting a pass"
+  },
+  "general": "通用",
+  "@general": {
+    "description": "Heading for general settings"
+  },
+  "generalSettingsDesc": "通用设置",
+  "@generalSettingsDesc": {
+    "description": "Description for general settings"
+  },
+  "themeSettingsDesc": "设置主题和颜色",
+  "@themeSettingsDesc": {
+    "description": "Description for theme settings"
+  },
+  "dev": "开发",
+  "@dev": {
+    "description": "Heading for developer settings"
+  },
+  "devSettingsDesc": "开发设置",
+  "@devSettingsDesc": {
+    "description": "Description for developer settings"
+  },
+  "settingsSaved": "设置已保存",
+  "@settingsSaved": {
+    "description": "Snackbar message for successful settings save"
+  },
+  "passRefresh": "刷新通行证",
+  "@passRefresh": {
+    "description": "Tooltip for the refresh pass button"
+  },
+  "activate": "激活",
+  "@activate": {
+    "description": "Activate button text"
+  },
+  "passRefreshHintText": "通行证刷新间隔（分钟）",
+  "@passRefreshHintText": {
+    "description": "Hint text for the pass refresh interval"
+  },
+  "devLogs": "开发者日志",
+  "@devLogs": {
+    "description": "Heading for developer logs"
+  },
+  "clearLogs": "清除日志",
+  "@clearLogs": {
+    "description": "Tooltip for the clear logs button"
+  },
+  "shareLogs": "分享日志",
+  "@shareLogs": {
+    "description": "Tooltip for the share logs button"
+  },
+  "appLogs": "应用日志",
+  "@appLogs": {
+    "description": "Heading for app logs"
+  },
+  "noLogsToShare": "没有可分享的日志",
+  "@noLogsToShare": {
+    "description": "Message when no logs are available to share"
+  },
+  "noLogsRecordedYet": "尚无日志记录",
+  "@noLogsRecordedYet": {
+    "description": "Message when no logs have been recorded yet"
+  },
+  "invalidBoardingPassData": "无效的登机牌数据",
+  "@invalidBoardingPassData": {
+    "description": "Error message for invalid boarding pass data"
+  },
+  "invalidEventTicketData": "无效的活动门票数据",
+  "@invalidEventTicketData": {
+    "description": "Error message for invalid event ticket data"
+  }
+}

@@ -1,0 +1,228 @@
+{
+  "@@locale": "fr",
+  "title": "Pass",
+  "@title": {
+    "description": "Title of the app"
+  },
+  "ok": "OK",
+  "@ok": {
+    "description": "OK button text"
+  },
+  "cancel": "Annuler",
+  "@cancel": {
+    "description": "Cancel button text"
+  },
+  "delete": "Supprimer",
+  "@delete": {
+    "description": "Delete button text"
+  },
+  "share": "Partager",
+  "@share": {
+    "description": "Share button text"
+  },
+  "addPassFromFile": "Ajouter un Pass Depuis un Fichier",
+  "@addPassFromFile": {
+    "description": "Tooltip for the add pass button"
+  },
+  "pickedFile": "Fichier sélectionné : {fileName}",
+  "@pickedFile": {
+    "description": "Snackbar message after picking a file",
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidFileType": "Type de fichier invalide. Veuillez sélectionner un fichier .pkpass.",
+  "@invalidFileType": {
+    "description": "Error message for invalid file type selection"
+  },
+  "sharingPass": "Partage du Pass",
+  "@sharingPass": {
+    "description": "Tooltip for the share pass button"
+  },
+  "noPasses": "Aucun Pass",
+  "@noPasses": {
+    "description": "Message when no passes are available"
+  },
+  "passParseError": "Erreur lors de l'analyse du pass",
+  "@passParseError": {
+    "description": "Error message for failed pass parsing"
+  },
+  "settings": "Paramètres",
+  "@settings": {
+    "description": "Title of the settings"
+  },
+  "theme": "Thème",
+  "@theme": {
+    "description": "Heading for theme selection"
+  },
+  "themeColor": "Couleur du Thème",
+  "@themeColor": {
+    "description": "Heading for theme color selection"
+  },
+  "themeColorDescription": "Sélectionnez une couleur pour le thème de l'application",
+  "@themeColorDescription": {
+    "description": "Description for theme color selection"
+  },
+  "themeMode": "Mode du Thème",
+  "@themeMode": {
+    "description": "Heading for theme mode selection"
+  },
+  "systemTheme": "Système",
+  "@systemTheme": {
+    "description": "Use the default theme of the system"
+  },
+  "lightTheme": "Clair",
+  "@lightTheme": {
+    "description": "Light theme for the app"
+  },
+  "darkTheme": "Sombre",
+  "@darkTheme": {
+    "description": "Dark theme for the app"
+  },
+  "colorMode": "Mode Couleur",
+  "@colorMode": {
+    "description": "Heading for color mode selection"
+  },
+  "colorModeSystem": "Couleur du Système",
+  "@colorModeSystem": {
+    "description": "System color for the color mode"
+  },
+  "colorModeSystemDescription": "Utiliser la couleur du système",
+  "@colorModeSystemDescription": {
+    "description": "Description for system color mode selection"
+  },
+  "colorModeSeed": "Couleur de Base",
+  "@colorModeSeed": {
+    "description": "Seed color for the color mode"
+  },
+  "colorModeIndividual": "Couleur Individuelle",
+  "@colorModeIndividual": {
+    "description": "Individual color for the color mode"
+  },
+  "individualColorMode": "Mode Couleur Individuel",
+  "@individualColorMode": {
+    "description": "Heading for individual color mode selection"
+  },
+  "individualColorModeDescription": "Sélectionnez une couleur personnalisée pour chaque élément de l'application.",
+  "@individualColorModeDescription": {
+    "description": "Description for individual color mode selection"
+  },
+  "primaryColor": "Couleur Primaire",
+  "@primaryColor": {
+    "description": "Heading for primary color selection"
+  },
+  "onPrimaryColor": "Sur Couleur Primaire",
+  "@onPrimaryColor": {
+    "description": "Heading for on primary color selection"
+  },
+  "secondaryColor": "Couleur Secondaire",
+  "@secondaryColor": {
+    "description": "Heading for secondary color selection"
+  },
+  "onSecondaryColor": "Sur Couleur Secondaire",
+  "@onSecondaryColor": {
+    "description": "Heading for on secondary color selection"
+  },
+  "surfaceColor": "Couleur de Surface",
+  "@surfaceColor": {
+    "description": "Heading for surface color selection"
+  },
+  "onSurfaceColor": "Sur Couleur de Surface",
+  "@onSurfaceColor": {
+    "description": "Heading for on surface color selection"
+  },
+  "errorColor": "Couleur d'Erreur",
+  "@errorColor": {
+    "description": "Heading for error color selection"
+  },
+  "onErrorColor": "Sur Couleur d'Erreur",
+  "@onErrorColor": {
+    "description": "Heading for on error color selection"
+  },
+  "passDoesNotSupportUpdates": "Ce pass ne prend pas en charge les mises à jour.",
+  "@passDoesNotSupportUpdates": {
+    "description": "Error message for passes that do not support updates"
+  },
+  "passUpdateFailedOrNoUpdateAvailable": "La mise à jour du pass a échoué ou aucune mise à jour n'est disponible.",
+  "@passUpdateFailedOrNoUpdateAvailable": {
+    "description": "Error message for failed pass update or no update available"
+  },
+  "deletePass": "Supprimer le Pass",
+  "@deletePass": {
+    "description": "Tooltip for the delete pass button"
+  },
+  "deletePassConfirmation": "Êtes-vous sûr de vouloir supprimer ce pass ? Cette action est irréversible.",
+  "@deletePassConfirmation": {
+    "description": "Confirmation message for deleting a pass"
+  },
+  "general": "Général",
+  "@general": {
+    "description": "Heading for general settings"
+  },
+  "generalSettingsDesc": "Paramètres généraux",
+  "@generalSettingsDesc": {
+    "description": "Description for general settings"
+  },
+  "themeSettingsDesc": "Définir le thème et les couleurs",
+  "@themeSettingsDesc": {
+    "description": "Description for theme settings"
+  },
+  "dev": "Développement",
+  "@dev": {
+    "description": "Heading for developer settings"
+  },
+  "devSettingsDesc": "Paramètres de développement",
+  "@devSettingsDesc": {
+    "description": "Description for developer settings"
+  },
+  "settingsSaved": "Paramètres enregistrés",
+  "@settingsSaved": {
+    "description": "Snackbar message for successful settings save"
+  },
+  "passRefresh": "Actualiser le Pass",
+  "@passRefresh": {
+    "description": "Tooltip for the refresh pass button"
+  },
+  "activate": "Activer",
+  "@activate": {
+    "description": "Activate button text"
+  },
+  "passRefreshHintText": "Intervalle de rafraîchissement du pass (min)",
+  "@passRefreshHintText": {
+    "description": "Hint text for the pass refresh interval"
+  },
+  "devLogs": "Logs de Développement",
+  "@devLogs": {
+    "description": "Heading for developer logs"
+  },
+  "clearLogs": "Effacer les Logs",
+  "@clearLogs": {
+    "description": "Tooltip for the clear logs button"
+  },
+  "shareLogs": "Partager les Logs",
+  "@shareLogs": {
+    "description": "Tooltip for the share logs button"
+  },
+  "appLogs": "Logs de l'Application",
+  "@appLogs": {
+    "description": "Heading for app logs"
+  },
+  "noLogsToShare": "Aucun log à partager",
+  "@noLogsToShare": {
+    "description": "Message when no logs are available to share"
+  },
+  "noLogsRecordedYet": "Aucun log enregistré pour le moment",
+  "@noLogsRecordedYet": {
+    "description": "Message when no logs have been recorded yet"
+  },
+  "invalidBoardingPassData": "Données de carte d'embarquement invalides",
+  "@invalidBoardingPassData": {
+    "description": "Error message for invalid boarding pass data"
+  },
+  "invalidEventTicketData": "Données de billet d'événement invalides",
+  "@invalidEventTicketData": {
+    "description": "Error message for invalid event ticket data"
+  }
+}
