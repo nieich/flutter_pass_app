@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pass_app/Themes/boarding_pass_theme.dart';
+import 'package:flutter_pass_app/l10n/app_localizations.dart';
 import 'package:flutter_pass_app/utils/pass_functions.dart';
 import 'package:flutter_pass_app/widgets/base_pass_widget.dart';
 import 'package:passkit/passkit.dart';
@@ -11,13 +12,13 @@ Widget boardingPassWidget(PkPass pass, BuildContext context) {
 }
 
 Widget _buildBoardingPassWidget(PkPass pass, BoardinPassTheme passTheme, BuildContext context) {
+  final l10n = AppLocalizations.of(context)!;
   final barcode = pass.pass.barcodes?.firstOrNull ?? pass.pass.barcode;
-
   final boardingPass = pass.pass.boardingPass;
 
   if (boardingPass == null) {
     // Or return a more user-friendly error widget
-    return const Center(child: Text('Invalid Boarding Pass Data'));
+    return Center(child: Text(l10n.invalidBoardingPassData));
   }
 
   return Padding(

@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_pass_app/Themes/eventicket_pass_theme.dart';
+import 'package:flutter_pass_app/l10n/app_localizations.dart';
 import 'package:flutter_pass_app/utils/pass_functions.dart';
 import 'package:flutter_pass_app/widgets/base_pass_widget.dart';
 import 'package:passkit/passkit.dart';
@@ -39,10 +40,11 @@ class Thumbnail extends StatelessWidget {
 }
 
 Widget eventTicketWidget(PkPass pass, BuildContext context) {
+  final l10n = AppLocalizations.of(context)!;
   final eventTicket = pass.pass.eventTicket;
 
   if (eventTicket == null) {
-    return const Center(child: Text('Invalid Event Ticket Data'));
+    return Center(child: Text(l10n.invalidEventTicketData));
   }
 
   final passTheme = EventTicketTheme.fromPass(pass);

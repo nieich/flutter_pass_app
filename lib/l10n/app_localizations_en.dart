@@ -172,4 +172,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noLogsRecordedYet => 'No logs recorded yet';
+
+  @override
+  String get invalidBoardingPassData => 'Invalid boarding pass data';
+
+  @override
+  String get invalidEventTicketData => 'Invalid event ticket data';
 }

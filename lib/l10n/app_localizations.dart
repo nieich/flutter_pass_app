@@ -415,6 +415,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No logs recorded yet'**
   String get noLogsRecordedYet;
+
+  /// Error message for invalid boarding pass data
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid boarding pass data'**
+  String get invalidBoardingPassData;
+
+  /// Error message for invalid event ticket data
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid event ticket data'**
+  String get invalidEventTicketData;
 }
 
 class _AppLocalizationsDelegate

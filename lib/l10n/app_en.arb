@@ -216,6 +216,15 @@
   "noLogsRecordedYet": "No logs recorded yet",
   "@noLogsRecordedYet": {
     "description": "Message if no logs have been recorded yet"
+  },
+  "invalidBoardingPassData": "Invalid boarding pass data",
+  "@invalidBoardingPassData": {
+    "description": "Error message for invalid boarding pass data"
+  },
+  "invalidEventTicketData": "Invalid event ticket data",
+  "@invalidEventTicketData": {
+    "description": "Error message for invalid event ticket data"
   }
+  
 
 }

@@ -49,6 +49,8 @@
     "shareLogs",
     "appLogs",
     "noLogsToShare",
-    "noLogsRecordedYet"
+    "noLogsRecordedYet",
+    "invalidBoardingPassData",
+    "invalidEventTicketData"
   ]
 }
