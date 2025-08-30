@@ -114,7 +114,10 @@ Widget _buildGeneralSettingsTileSwitchTextField(
       Container(
         // Container to represent the dark card-like element.
         padding: const EdgeInsets.all(16.0),
-        decoration: BoxDecoration(color: Colors.blueGrey, borderRadius: BorderRadius.circular(16.0)),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.primaryContainer,
+          borderRadius: BorderRadius.circular(16.0),
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min, // Keep the column compact.
           children: [
@@ -128,7 +131,7 @@ Widget _buildGeneralSettingsTileSwitchTextField(
                 Switch(
                   value: isActivated,
                   onChanged: onToggle,
-                  activeColor: Colors.grey, // Active color to match the image
+                  activeColor: Theme.of(context).colorScheme.primary, // Active color to match the image
                   inactiveTrackColor: Colors.grey[700], // Inactive track color
                   inactiveThumbColor: Colors.grey[400], // Inactive thumb color
                 ),
