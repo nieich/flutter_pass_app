@@ -1,8 +1,11 @@
 {
   "de": [
+    "delete",
+    "share",
     "addPassFromFile",
     "pickedFile",
     "invalidFileType",
+    "sharingPass",
     "noPasses",
     "passParseError",
     "settings",
@@ -27,6 +30,25 @@
     "surfaceColor",
     "onSurfaceColor",
     "errorColor",
-    "onErrorColor"
+    "onErrorColor",
+    "passDoesNotSupportUpdates",
+    "passUpdateFailedOrNoUpdateAvailable",
+    "deletePass",
+    "deletePassConfirmation",
+    "general",
+    "generalSettingsDesc",
+    "themeSettingsDesc",
+    "dev",
+    "devSettingsDesc",
+    "settingsSaved",
+    "passRefresh",
+    "activate",
+    "passRefreshHintText",
+    "devLogs",
+    "clearLogs",
+    "shareLogs",
+    "appLogs",
+    "noLogsToShare",
+    "noLogsRecordedYet"
   ]
 }

@@ -116,6 +116,18 @@ abstract class AppLocalizations {
   /// **'Cancel'**
   String get cancel;
 
+  /// Delete button text
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// Share button text
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get share;
+
   /// Tooltip for the add pass button
   ///
   /// In en, this message translates to:
@@ -133,6 +145,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Invalid file type. Please select a .pkpass file.'**
   String get invalidFileType;
+
+  /// Tooltip for the share pass button
+  ///
+  /// In en, this message translates to:
+  /// **'Sharing Pass'**
+  String get sharingPass;
 
   /// Message if no passes are available
   ///
@@ -283,6 +301,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'On Error Color'**
   String get onErrorColor;
+
+  /// Error message for passes that do not support updates
+  ///
+  /// In en, this message translates to:
+  /// **'This pass does not support updates.'**
+  String get passDoesNotSupportUpdates;
+
+  /// Error message for failed pass update or no update available
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update pass or no update available.'**
+  String get passUpdateFailedOrNoUpdateAvailable;
+
+  /// Tooltip for the delete pass button
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Pass'**
+  String get deletePass;
+
+  /// Confirmation message for deleting a pass
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this pass? This action cannot be undone.'**
+  String get deletePassConfirmation;
+
+  /// Header for general settings
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get general;
+
+  /// Description for general settings
+  ///
+  /// In en, this message translates to:
+  /// **'General Settings'**
+  String get generalSettingsDesc;
+
+  /// Description for theme settings
+  ///
+  /// In en, this message translates to:
+  /// **'Set the Theme and colors'**
+  String get themeSettingsDesc;
+
+  /// Header for developer settings
+  ///
+  /// In en, this message translates to:
+  /// **'Dev'**
+  String get dev;
+
+  /// Description for developer settings
+  ///
+  /// In en, this message translates to:
+  /// **'Development Settings'**
+  String get devSettingsDesc;
+
+  /// Snackbar message for successful settings save
+  ///
+  /// In en, this message translates to:
+  /// **'Settings Saved'**
+  String get settingsSaved;
+
+  /// Tooltip for the refresh pass button
+  ///
+  /// In en, this message translates to:
+  /// **'Pass Refresh'**
+  String get passRefresh;
+
+  /// Activate button text
+  ///
+  /// In en, this message translates to:
+  /// **'Activate'**
+  String get activate;
+
+  /// Hint text for the pass refresh interval
+  ///
+  /// In en, this message translates to:
+  /// **'Pass Refreshintervall (min)'**
+  String get passRefreshHintText;
+
+  /// Header for developer logs
+  ///
+  /// In en, this message translates to:
+  /// **'Developer Logs'**
+  String get devLogs;
+
+  /// Tooltip for the clear logs button
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Logs'**
+  String get clearLogs;
+
+  /// Tooltip for the share logs button
+  ///
+  /// In en, this message translates to:
+  /// **'Share Logs'**
+  String get shareLogs;
+
+  /// Header for app logs
+  ///
+  /// In en, this message translates to:
+  /// **'App Logs'**
+  String get appLogs;
+
+  /// Message if no logs are available to share
+  ///
+  /// In en, this message translates to:
+  /// **'No logs to share'**
+  String get noLogsToShare;
+
+  /// Message if no logs have been recorded yet
+  ///
+  /// In en, this message translates to:
+  /// **'No logs recorded yet'**
+  String get noLogsRecordedYet;
 }
 
 class _AppLocalizationsDelegate

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pass_app/l10n/app_localizations.dart';
 import 'package:flutter_pass_app/services/service_locator.dart';
 import 'package:flutter_pass_app/services/services.dart';
 import 'package:flutter_pass_app/utils/pass_functions.dart';
@@ -15,6 +16,7 @@ class PassPage extends StatefulWidget {
 
 class _PassPageState extends State<PassPage> {
   late PkPass _pass;
+  late AppLocalizations l10n;
 
   @override
   void initState() {
@@ -25,23 +27,32 @@ class _PassPageState extends State<PassPage> {
     _pass = locator<PassService>().findPass(widget.serialNumber!);
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // It's best practice to get context-dependent objects in didChangeDependencies.
+    l10n = AppLocalizations.of(context)!;
+  }
+
   Future<void> _handleRefresh() async {
     // A pass can only be refreshed if it has a webservice URL.
     if (_pass.pass.webServiceURL == null) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('This pass does not support updates.')));
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.passDoesNotSupportUpdates)));
+      }
       return;
     }
 
     final updatedPass = await locator<PassService>().updatePass(widget.serialNumber!);
 
-    if (updatedPass != null && mounted) {
+    if (!mounted) return;
+
+    if (updatedPass != null) {
       setState(() {
         _pass = updatedPass;
       });
-    } else if (mounted) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Failed to update pass or no update available.')));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.passUpdateFailedOrNoUpdateAvailable)));
     }
   }
 
@@ -50,27 +61,32 @@ class _PassPageState extends State<PassPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Delete Pass'),
-          content: const Text('Are you sure you want to delete this pass? This action cannot be undone.'),
+          title: Text(l10n.deletePass),
+          content: Text(l10n.deletePassConfirmation),
           actions: <Widget>[
-            TextButton(child: const Text('Cancel'), onPressed: () => Navigator.of(context).pop(false)),
-            TextButton(child: const Text('Delete'), onPressed: () => Navigator.of(context).pop(true)),
+            TextButton(child: Text(l10n.cancel), onPressed: () => Navigator.of(context).pop(false)),
+            TextButton(child: Text(l10n.delete), onPressed: () => Navigator.of(context).pop(true)),
           ],
         );
       },
     );
 
-    if (confirmed == true && mounted) {
-      final nav = Navigator.of(context);
-      await locator<PassService>().deletePass(widget.serialNumber!);
-      nav.pop();
+    // The widget might have been unmounted while the dialog was open.
+    if (confirmed != true || !mounted) return;
+
+    await locator<PassService>().deletePass(widget.serialNumber!);
+
+    if (mounted) {
+      Navigator.of(context).pop();
     }
   }
 
   Future<void> _handleShare() async {
     final filePath = await locator<PassFileStorageService>().getPassFilePath(_pass.pass.serialNumber);
 
-    SharePlus.instance.share(ShareParams(files: [XFile(filePath)], subject: 'Sharing Pass: ${_pass.pass.description}'));
+    SharePlus.instance.share(
+      ShareParams(files: [XFile(filePath)], subject: '${l10n.sharingPass} ${_pass.pass.description}'),
+    );
   }
 
   @override
@@ -83,27 +99,33 @@ class _PassPageState extends State<PassPage> {
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) {
-              if (value == 'delete') _handleDelete();
-              if (value == 'share') _handleShare();
+              switch (value) {
+                case 'delete':
+                  _handleDelete();
+                  break;
+                case 'share':
+                  _handleShare();
+                  break;
+              }
             },
             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-              const PopupMenuItem<String>(
+              PopupMenuItem<String>(
                 value: 'share',
                 child: Row(
                   children: <Widget>[
                     Icon(Icons.share, color: Colors.blue), // Your icon here
                     SizedBox(width: 8), // Spacing between icon and text
-                    Text('Share'),
+                    Text(l10n.share),
                   ],
                 ),
               ),
-              const PopupMenuItem<String>(
+              PopupMenuItem<String>(
                 value: 'delete',
                 child: Row(
                   children: <Widget>[
                     Icon(Icons.delete_forever, color: Colors.red), // Your icon here
                     SizedBox(width: 8), // Spacing between icon and text
-                    Text('Delete'),
+                    Text(l10n.delete),
                   ],
                 ),
               ),

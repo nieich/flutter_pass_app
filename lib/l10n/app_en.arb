@@ -12,6 +12,14 @@
   "@cancel": {
     "description": "Cancel button text"
   },
+  "delete": "Delete",
+  "@delete": {
+    "description": "Delete button text"
+  },
+  "share": "Share",
+  "@share": {
+    "description": "Share button text"
+  },
   "addPassFromFile": "Add Pass from File",
   "@addPassFromFile": {
     "description": "Tooltip for the add pass button"
@@ -28,6 +36,10 @@
   "invalidFileType": "Invalid file type. Please select a .pkpass file.",
   "@invalidFileType": {
     "description": "Error message for invalid file type selection"
+  },
+  "sharingPass": "Sharing Pass",
+  "@sharingPass": {
+    "description": "Tooltip for the share pass button"
   },
   "noPasses":"No Passes",
   "@noPasses":{
@@ -128,5 +140,82 @@
   "onErrorColor": "On Error Color",
   "@onErrorColor": {
     "description": "Header for the on error color selection"
+  },
+  "passDoesNotSupportUpdates": "This pass does not support updates.",
+  "@passDoesNotSupportUpdates": {
+    "description": "Error message for passes that do not support updates"
+  },
+  "passUpdateFailedOrNoUpdateAvailable": "Failed to update pass or no update available.",
+  "@passUpdateFailedOrNoUpdateAvailable": {
+    "description": "Error message for failed pass update or no update available"
+  },
+  "deletePass": "Delete Pass",
+  "@deletePass": {
+    "description": "Tooltip for the delete pass button"
+  },
+  "deletePassConfirmation": "Are you sure you want to delete this pass? This action cannot be undone.",
+  "@deletePassConfirmation": {
+    "description": "Confirmation message for deleting a pass"
+  },
+  "general": "General",
+  "@general": {
+    "description": "Header for general settings"
+  },
+  "generalSettingsDesc": "General Settings",
+  "@generalSettingsDesc": {
+    "description": "Description for general settings"
+  },
+  "themeSettingsDesc": "Set the Theme and colors",
+  "@themeSettingsDesc": {
+    "description": "Description for theme settings"
+  },
+  "dev":"Dev",
+  "@dev": {
+    "description": "Header for developer settings"
+  },
+  "devSettingsDesc": "Development Settings",
+  "@devSettingsDesc": {
+    "description": "Description for developer settings"
+  },
+  "settingsSaved": "Settings Saved",
+  "@settingsSaved": {
+    "description": "Snackbar message for successful settings save"
+  },
+  "passRefresh": "Pass Refresh",
+  "@passRefresh": {
+    "description": "Tooltip for the refresh pass button"
+  },
+  "activate": "Activate",
+  "@activate": {
+    "description": "Activate button text"
+  },
+  "passRefreshHintText": "Pass Refreshintervall (min)",
+  "@passRefreshHintText": {
+    "description": "Hint text for the pass refresh interval"
+  },
+  "devLogs": "Developer Logs",
+  "@devLogs": {
+    "description": "Header for developer logs"
+  },
+  "clearLogs": "Clear Logs",
+  "@clearLogs": {
+    "description": "Tooltip for the clear logs button"
+  },
+  "shareLogs": "Share Logs",
+  "@shareLogs": {
+    "description": "Tooltip for the share logs button"
+  },
+  "appLogs": "App Logs",
+  "@appLogs": {
+    "description": "Header for app logs"
+  },
+  "noLogsToShare": "No logs to share",
+  "@noLogsToShare": {
+    "description": "Message if no logs are available to share"
+  },
+  "noLogsRecordedYet": "No logs recorded yet",
+  "@noLogsRecordedYet": {
+    "description": "Message if no logs have been recorded yet"
   }
+
 }

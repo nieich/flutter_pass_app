@@ -18,6 +18,8 @@ class _HomePageState extends State<HomePage> {
   // Use the singleton instances of your services
   final _passService = locator<PassService>();
 
+  late AppLocalizations l10n;
+
   // Local state to hold the list of passes
   List<PkPass> _passes = [];
   bool _isLoading = true;
@@ -31,13 +33,17 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // It's best practice to get context-dependent objects in didChangeDependencies.
+    l10n = AppLocalizations.of(context)!;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          AppLocalizations.of(context)!.title,
-          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
-        ),
+        title: Text(l10n.title, style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
         backgroundColor: Theme.of(context).colorScheme.primary,
         actions: [
           IconButton(
@@ -52,7 +58,7 @@ class _HomePageState extends State<HomePage> {
       body: _buildBody(context),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _pickAndAddPass(context),
-        tooltip: AppLocalizations.of(context)!.addPassFromFile,
+        tooltip: l10n.addPassFromFile,
         child: const Icon(Icons.add),
       ),
     );
@@ -64,9 +70,7 @@ class _HomePageState extends State<HomePage> {
     }
 
     if (_passes.isEmpty) {
-      return Center(
-        child: Text(AppLocalizations.of(context)!.noPasses, style: Theme.of(context).textTheme.titleMedium),
-      );
+      return Center(child: Text(l10n.noPasses, style: Theme.of(context).textTheme.titleMedium));
     }
 
     return Padding(
@@ -79,7 +83,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _pickAndAddPass(BuildContext context) async {
-    final l10n = AppLocalizations.of(context)!;
     setState(() => _isLoading = true);
 
     ScaffoldMessengerState messenger = ScaffoldMessenger.of(context);

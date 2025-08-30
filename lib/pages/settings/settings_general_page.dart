@@ -104,10 +104,12 @@ Widget _buildGeneralSettingsTileSwitchTextField(
   ValueChanged<bool> onToggle,
   VoidCallback onPressed,
 ) {
+  final l10n = AppLocalizations.of(context)!;
+
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Text('Pass Aktualisierung', style: Theme.of(context).textTheme.titleLarge),
+      Text(l10n.passRefresh, style: Theme.of(context).textTheme.titleLarge),
       const SizedBox(height: 16),
       Container(
         // Container to represent the dark card-like element.
@@ -119,8 +121,8 @@ Widget _buildGeneralSettingsTileSwitchTextField(
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'Aktivieren', // "Activate" in German.
+                Text(
+                  l10n.activate, // "Activate" in German.
                   style: TextStyle(fontSize: 16, color: Colors.white),
                 ),
                 Switch(
@@ -140,7 +142,7 @@ Widget _buildGeneralSettingsTileSwitchTextField(
                   child: TextField(
                     decoration: InputDecoration(
                       // "Pass Update Interval (min)" in German.
-                      labelText: 'Pass Aktualisierungsintervall (min)', // Changed to hintText
+                      labelText: l10n.passRefreshHintText, // Changed to hintText
                       hintStyle: TextStyle(color: Theme.of(context).hintColor),
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
                     ),

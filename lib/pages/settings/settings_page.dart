@@ -15,13 +15,13 @@ class SettingsPage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          _buildSettingTile(context, 'General', 'General Settings', Icons.settings_applications_sharp, () {
+          _buildSettingTile(context, l10n.general, l10n.generalSettingsDesc, Icons.settings_applications_sharp, () {
             context.push(Routes.pathSettingsGeneral);
           }),
-          _buildSettingTile(context, 'Theme', 'Set the Theme and colors', Icons.color_lens, () {
+          _buildSettingTile(context, l10n.theme, l10n.themeSettingsDesc, Icons.color_lens, () {
             context.push(Routes.pathSettingsTheme);
           }),
-          _buildSettingTile(context, 'Dev', 'Developer Settings', Icons.developer_mode, () {
+          _buildSettingTile(context, l10n.dev, l10n.devSettingsDesc, Icons.developer_mode, () {
             context.push(Routes.pathSettingsDev);
           }),
         ],

@@ -18,6 +18,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get cancel => 'Abbrechen';
 
   @override
+  String get delete => 'Delete';
+
+  @override
+  String get share => 'Share';
+
+  @override
   String get addPassFromFile => 'Add Pass from File';
 
   @override
@@ -28,6 +34,9 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get invalidFileType =>
       'Invalid file type. Please select a .pkpass file.';
+
+  @override
+  String get sharingPass => 'Sharing Pass';
 
   @override
   String get noPasses => 'No Passes';
@@ -104,4 +113,63 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get onErrorColor => 'On Error Color';
+
+  @override
+  String get passDoesNotSupportUpdates => 'This pass does not support updates.';
+
+  @override
+  String get passUpdateFailedOrNoUpdateAvailable =>
+      'Failed to update pass or no update available.';
+
+  @override
+  String get deletePass => 'Delete Pass';
+
+  @override
+  String get deletePassConfirmation =>
+      'Are you sure you want to delete this pass? This action cannot be undone.';
+
+  @override
+  String get general => 'General';
+
+  @override
+  String get generalSettingsDesc => 'General Settings';
+
+  @override
+  String get themeSettingsDesc => 'Set the Theme and colors';
+
+  @override
+  String get dev => 'Dev';
+
+  @override
+  String get devSettingsDesc => 'Development Settings';
+
+  @override
+  String get settingsSaved => 'Settings Saved';
+
+  @override
+  String get passRefresh => 'Pass Refresh';
+
+  @override
+  String get activate => 'Activate';
+
+  @override
+  String get passRefreshHintText => 'Pass Refreshintervall (min)';
+
+  @override
+  String get devLogs => 'Developer Logs';
+
+  @override
+  String get clearLogs => 'Clear Logs';
+
+  @override
+  String get shareLogs => 'Share Logs';
+
+  @override
+  String get appLogs => 'App Logs';
+
+  @override
+  String get noLogsToShare => 'No logs to share';
+
+  @override
+  String get noLogsRecordedYet => 'No logs recorded yet';
 }

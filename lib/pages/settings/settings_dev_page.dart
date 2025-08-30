@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pass_app/l10n/app_localizations.dart';
 import 'package:flutter_pass_app/services/log_service.dart';
 import 'package:flutter_pass_app/services/service_locator.dart';
 import 'package:intl/intl.dart';
@@ -18,10 +19,11 @@ class _SettingsDevPageState extends State<SettingsDevPage> {
   @override
   Widget build(BuildContext context) {
     final logs = _logService.logs;
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Developer Logs'),
+        title: Text(l10n.devLogs),
         actions: [
           IconButton(
             icon: const Icon(Icons.delete_forever),
@@ -34,21 +36,21 @@ class _SettingsDevPageState extends State<SettingsDevPage> {
           ),
           IconButton(
             icon: const Icon(Icons.share),
-            tooltip: 'Share Logs',
+            tooltip: l10n.shareLogs,
             onPressed: () {
               final logString = _logService.getLogsAsString();
               if (logString.isNotEmpty) {
                 //Share.share(logString, subject: 'App Logs');
-                SharePlus.instance.share(ShareParams(subject: 'App Logs', text: logString));
+                SharePlus.instance.share(ShareParams(subject: l10n.appLogs, text: logString));
               } else {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('No logs to share.')));
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.noLogsToShare)));
               }
             },
           ),
         ],
       ),
       body: logs.isEmpty
-          ? const Center(child: Text('No logs recorded yet.'))
+          ? Center(child: Text(l10n.noLogsRecordedYet))
           : ListView.builder(
               padding: const EdgeInsets.all(8.0),
               itemCount: logs.length,
