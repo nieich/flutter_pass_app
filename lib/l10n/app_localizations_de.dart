@@ -9,7 +9,7 @@ class AppLocalizationsDe extends AppLocalizations {
   AppLocalizationsDe([String locale = 'de']) : super(locale);
 
   @override
-  String get title => 'Passes';
+  String get title => 'Pässe';
 
   @override
   String get ok => 'OK';
@@ -18,164 +18,166 @@ class AppLocalizationsDe extends AppLocalizations {
   String get cancel => 'Abbrechen';
 
   @override
-  String get delete => 'Delete';
+  String get delete => 'Löschen';
 
   @override
-  String get share => 'Share';
+  String get share => 'Teilen';
 
   @override
-  String get addPassFromFile => 'Add Pass from File';
+  String get addPassFromFile => 'Pass aus Datei hinzufügen';
 
   @override
   String pickedFile(String fileName) {
-    return 'Picked file: $fileName';
+    return 'Ausgewählte Datei: $fileName';
   }
 
   @override
   String get invalidFileType =>
-      'Invalid file type. Please select a .pkpass file.';
+      'Ungültiger Dateityp. Bitte wählen Sie eine .pkpass-Datei aus.';
 
   @override
-  String get sharingPass => 'Sharing Pass';
+  String get sharingPass => 'Pass teilen';
 
   @override
-  String get noPasses => 'No Passes';
+  String get noPasses => 'Keine Pässe';
 
   @override
-  String get passParseError => 'Error parsing pass';
+  String get passParseError => 'Fehler beim Parsen des Passes';
 
   @override
-  String get settings => 'Settings';
+  String get settings => 'Einstellungen';
 
   @override
-  String get theme => 'Theme';
+  String get theme => 'Thema';
 
   @override
-  String get themeColor => 'Design Color';
+  String get themeColor => 'Designfarbe';
 
   @override
-  String get themeColorDescription => 'Choose a color for the app design';
+  String get themeColorDescription =>
+      'Wählen Sie eine Farbe für das App-Design';
 
   @override
-  String get themeMode => 'Theme Mode';
+  String get themeMode => 'Thema-Modus';
 
   @override
   String get systemTheme => 'System';
 
   @override
-  String get lightTheme => 'Light';
+  String get lightTheme => 'Hell';
 
   @override
-  String get darkTheme => 'Dark';
+  String get darkTheme => 'Dunkel';
 
   @override
-  String get colorMode => 'Color Mode';
+  String get colorMode => 'Farbmodus';
 
   @override
-  String get colorModeSystem => 'System Color';
+  String get colorModeSystem => 'Systemfarbe';
 
   @override
-  String get colorModeSystemDescription => 'Use the system\'s color';
+  String get colorModeSystemDescription => 'Die Systemfarbe verwenden';
 
   @override
-  String get colorModeSeed => 'Seed Color';
+  String get colorModeSeed => 'Seed-Farbe';
 
   @override
-  String get colorModeIndividual => 'Individual Color';
+  String get colorModeIndividual => 'Individuelle Farbe';
 
   @override
-  String get individualColorMode => 'Individual Color Mode';
+  String get individualColorMode => 'Individueller Farbmodus';
 
   @override
   String get individualColorModeDescription =>
-      'Select a custom color for each element in the app.';
+      'Wählen Sie für jedes Element in der App eine benutzerdefinierte Farbe aus.';
 
   @override
-  String get primaryColor => 'Primary Color';
+  String get primaryColor => 'Primärfarbe';
 
   @override
-  String get onPrimaryColor => 'On Primary Color';
+  String get onPrimaryColor => 'Auf Primärfarbe';
 
   @override
-  String get secondaryColor => 'Secondary Color';
+  String get secondaryColor => 'Sekundärfarbe';
 
   @override
-  String get onSecondaryColor => 'On Secondary Color';
+  String get onSecondaryColor => 'Auf Sekundärfarbe';
 
   @override
-  String get surfaceColor => 'Surface Color';
+  String get surfaceColor => 'Oberflächenfarbe';
 
   @override
-  String get onSurfaceColor => 'On Surface Color';
+  String get onSurfaceColor => 'Auf Oberflächenfarbe';
 
   @override
-  String get errorColor => 'Error Color';
+  String get errorColor => 'Fehlerfarbe';
 
   @override
-  String get onErrorColor => 'On Error Color';
+  String get onErrorColor => 'Auf Fehlerfarbe';
 
   @override
-  String get passDoesNotSupportUpdates => 'This pass does not support updates.';
+  String get passDoesNotSupportUpdates =>
+      'Dieser Pass unterstützt keine Aktualisierungen.';
 
   @override
   String get passUpdateFailedOrNoUpdateAvailable =>
-      'Failed to update pass or no update available.';
+      'Pass-Aktualisierung fehlgeschlagen oder keine Aktualisierung verfügbar.';
 
   @override
-  String get deletePass => 'Delete Pass';
+  String get deletePass => 'Pass löschen';
 
   @override
   String get deletePassConfirmation =>
-      'Are you sure you want to delete this pass? This action cannot be undone.';
+      'Sind Sie sicher, dass Sie diesen Pass löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.';
 
   @override
-  String get general => 'General';
+  String get general => 'Allgemein';
 
   @override
-  String get generalSettingsDesc => 'General Settings';
+  String get generalSettingsDesc => 'Allgemeine Einstellungen';
 
   @override
-  String get themeSettingsDesc => 'Set the Theme and colors';
+  String get themeSettingsDesc => 'Thema und Farben einstellen';
 
   @override
-  String get dev => 'Dev';
+  String get dev => 'Entwicklung';
 
   @override
-  String get devSettingsDesc => 'Development Settings';
+  String get devSettingsDesc => 'Entwicklungseinstellungen';
 
   @override
-  String get settingsSaved => 'Settings Saved';
+  String get settingsSaved => 'Einstellungen gespeichert';
 
   @override
-  String get passRefresh => 'Pass Refresh';
+  String get passRefresh => 'Pass aktualisieren';
 
   @override
-  String get activate => 'Activate';
+  String get activate => 'Aktivieren';
 
   @override
-  String get passRefreshHintText => 'Pass Refreshintervall (min)';
+  String get passRefreshHintText => 'Pass-Aktualisierungsintervall (min)';
 
   @override
-  String get devLogs => 'Developer Logs';
+  String get devLogs => 'Entwickler-Protokolle';
 
   @override
-  String get clearLogs => 'Clear Logs';
+  String get clearLogs => 'Protokolle löschen';
 
   @override
-  String get shareLogs => 'Share Logs';
+  String get shareLogs => 'Protokolle teilen';
 
   @override
-  String get appLogs => 'App Logs';
+  String get appLogs => 'App-Protokolle';
 
   @override
-  String get noLogsToShare => 'No logs to share';
+  String get noLogsToShare => 'Keine Protokolle zum Teilen';
 
   @override
-  String get noLogsRecordedYet => 'No logs recorded yet';
+  String get noLogsRecordedYet => 'Noch keine Protokolle aufgezeichnet';
 
   @override
-  String get invalidBoardingPassData => 'Invalid boarding pass data';
+  String get invalidBoardingPassData => 'Ungültige Bordkartendaten';
 
   @override
-  String get invalidEventTicketData => 'Invalid event ticket data';
+  String get invalidEventTicketData => 'Ungültige Veranstaltungsticketdaten';
 }

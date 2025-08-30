@@ -1,14 +1,228 @@
 {
-  "title": "Passes",
+  "@@locale": "de",
+  "title": "Pässe",
   "@title": {
-    "description": "Titel der app"
+    "description": "Titel der App"
   },
   "ok": "OK",
   "@ok": {
-    "description": "OK Schaltflächentext"
+    "description": "OK-Schaltflächentext"
   },
   "cancel": "Abbrechen",
   "@cancel": {
-    "description": "Abbrechen Schaltflächentext"
+    "description": "Abbrechen-Schaltflächentext"
+  },
+  "delete": "Löschen",
+  "@delete": {
+    "description": "Löschen-Schaltflächentext"
+  },
+  "share": "Teilen",
+  "@share": {
+    "description": "Teilen-Schaltflächentext"
+  },
+  "addPassFromFile": "Pass aus Datei hinzufügen",
+  "@addPassFromFile": {
+    "description": "Tooltip für die Schaltfläche zum Hinzufügen eines Passes"
+  },
+  "pickedFile": "Ausgewählte Datei: {fileName}",
+  "@pickedFile": {
+    "description": "Snackbar-Nachricht nach Auswahl einer Datei",
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidFileType": "Ungültiger Dateityp. Bitte wählen Sie eine .pkpass-Datei aus.",
+  "@invalidFileType": {
+    "description": "Fehlermeldung für ungültige Dateitypauswahl"
+  },
+  "sharingPass": "Pass teilen",
+  "@sharingPass": {
+    "description": "Tooltip für die Schaltfläche zum Teilen eines Passes"
+  },
+  "noPasses": "Keine Pässe",
+  "@noPasses": {
+    "description": "Nachricht, wenn keine Pässe verfügbar sind"
+  },
+  "passParseError": "Fehler beim Parsen des Passes",
+  "@passParseError": {
+    "description": "Fehlermeldung für fehlgeschlagenes Parsen eines Passes"
+  },
+  "settings": "Einstellungen",
+  "@settings": {
+    "description": "Titel der Einstellungen"
+  },
+  "theme": "Thema",
+  "@theme": {
+    "description": "Überschrift für die Themenauswahl"
+  },
+  "themeColor": "Designfarbe",
+  "@themeColor": {
+    "description": "Überschrift für die Auswahl der Designfarbe"
+  },
+  "themeColorDescription": "Wählen Sie eine Farbe für das App-Design",
+  "@themeColorDescription": {
+    "description": "Beschreibung für die Auswahl der Designfarbe"
+  },
+  "themeMode": "Thema-Modus",
+  "@themeMode": {
+    "description": "Überschrift für die Auswahl des Thema-Modus"
+  },
+  "systemTheme": "System",
+  "@systemTheme": {
+    "description": "Das Standardthema des Systems verwenden"
+  },
+  "lightTheme": "Hell",
+  "@lightTheme": {
+    "description": "Helles Thema für die App"
+  },
+  "darkTheme": "Dunkel",
+  "@darkTheme": {
+    "description": "Dunkles Thema für die App"
+  },
+  "colorMode": "Farbmodus",
+  "@colorMode": {
+    "description": "Überschrift für die Auswahl des Farbmodus"
+  },
+  "colorModeSystem": "Systemfarbe",
+  "@colorModeSystem": {
+    "description": "Systemfarbe für den Farbmodus"
+  },
+  "colorModeSystemDescription": "Die Systemfarbe verwenden",
+  "@colorModeSystemDescription": {
+    "description": "Beschreibung für die Auswahl des Systemfarbmodus"
+  },
+  "colorModeSeed": "Seed-Farbe",
+  "@colorModeSeed": {
+    "description": "Seed-Farbe für den Farbmodus"
+  },
+  "colorModeIndividual": "Individuelle Farbe",
+  "@colorModeIndividual": {
+    "description": "Individuelle Farbe für den Farbmodus"
+  },
+  "individualColorMode": "Individueller Farbmodus",
+  "@individualColorMode": {
+    "description": "Überschrift für die Auswahl des individuellen Farbmodus"
+  },
+  "individualColorModeDescription": "Wählen Sie für jedes Element in der App eine benutzerdefinierte Farbe aus.",
+  "@individualColorModeDescription": {
+    "description": "Beschreibung für die Auswahl des individuellen Farbmodus"
+  },
+  "primaryColor": "Primärfarbe",
+  "@primaryColor": {
+    "description": "Überschrift für die Auswahl der Primärfarbe"
+  },
+  "onPrimaryColor": "Auf Primärfarbe",
+  "@onPrimaryColor": {
+    "description": "Überschrift für die Auswahl der Farbe auf der Primärfarbe"
+  },
+  "secondaryColor": "Sekundärfarbe",
+  "@secondaryColor": {
+    "description": "Überschrift für die Auswahl der Sekundärfarbe"
+  },
+  "onSecondaryColor": "Auf Sekundärfarbe",
+  "@onSecondaryColor": {
+    "description": "Überschrift für die Auswahl der Farbe auf der Sekundärfarbe"
+  },
+  "surfaceColor": "Oberflächenfarbe",
+  "@surfaceColor": {
+    "description": "Überschrift für die Auswahl der Oberflächenfarbe"
+  },
+  "onSurfaceColor": "Auf Oberflächenfarbe",
+  "@onSurfaceColor": {
+    "description": "Überschrift für die Auswahl der Farbe auf der Oberfläche"
+  },
+  "errorColor": "Fehlerfarbe",
+  "@errorColor": {
+    "description": "Überschrift für die Auswahl der Fehlerfarbe"
+  },
+  "onErrorColor": "Auf Fehlerfarbe",
+  "@onErrorColor": {
+    "description": "Überschrift für die Auswahl der Farbe auf der Fehlerfarbe"
+  },
+  "passDoesNotSupportUpdates": "Dieser Pass unterstützt keine Aktualisierungen.",
+  "@passDoesNotSupportUpdates": {
+    "description": "Fehlermeldung für Pässe, die keine Aktualisierungen unterstützen"
+  },
+  "passUpdateFailedOrNoUpdateAvailable": "Pass-Aktualisierung fehlgeschlagen oder keine Aktualisierung verfügbar.",
+  "@passUpdateFailedOrNoUpdateAvailable": {
+    "description": "Fehlermeldung für fehlgeschlagene Pass-Aktualisierung oder keine verfügbare Aktualisierung"
+  },
+  "deletePass": "Pass löschen",
+  "@deletePass": {
+    "description": "Tooltip für die Schaltfläche zum Löschen eines Passes"
+  },
+  "deletePassConfirmation": "Sind Sie sicher, dass Sie diesen Pass löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+  "@deletePassConfirmation": {
+    "description": "Bestätigungsnachricht für das Löschen eines Passes"
+  },
+  "general": "Allgemein",
+  "@general": {
+    "description": "Überschrift für allgemeine Einstellungen"
+  },
+  "generalSettingsDesc": "Allgemeine Einstellungen",
+  "@generalSettingsDesc": {
+    "description": "Beschreibung für allgemeine Einstellungen"
+  },
+  "themeSettingsDesc": "Thema und Farben einstellen",
+  "@themeSettingsDesc": {
+    "description": "Beschreibung für die Themeneinstellungen"
+  },
+  "dev": "Entwicklung",
+  "@dev": {
+    "description": "Überschrift für Entwicklereinstellungen"
+  },
+  "devSettingsDesc": "Entwicklungseinstellungen",
+  "@devSettingsDesc": {
+    "description": "Beschreibung für Entwicklereinstellungen"
+  },
+  "settingsSaved": "Einstellungen gespeichert",
+  "@settingsSaved": {
+    "description": "Snackbar-Nachricht für erfolgreiches Speichern der Einstellungen"
+  },
+  "passRefresh": "Pass aktualisieren",
+  "@passRefresh": {
+    "description": "Tooltip für die Schaltfläche zum Aktualisieren eines Passes"
+  },
+  "activate": "Aktivieren",
+  "@activate": {
+    "description": "Aktivieren-Schaltflächentext"
+  },
+  "passRefreshHintText": "Pass-Aktualisierungsintervall (min)",
+  "@passRefreshHintText": {
+    "description": "Hinweistext für das Pass-Aktualisierungsintervall"
+  },
+  "devLogs": "Entwickler-Protokolle",
+  "@devLogs": {
+    "description": "Überschrift für Entwickler-Protokolle"
+  },
+  "clearLogs": "Protokolle löschen",
+  "@clearLogs": {
+    "description": "Tooltip für die Schaltfläche zum Löschen der Protokolle"
+  },
+  "shareLogs": "Protokolle teilen",
+  "@shareLogs": {
+    "description": "Tooltip für die Schaltfläche zum Teilen der Protokolle"
+  },
+  "appLogs": "App-Protokolle",
+  "@appLogs": {
+    "description": "Überschrift für App-Protokolle"
+  },
+  "noLogsToShare": "Keine Protokolle zum Teilen",
+  "@noLogsToShare": {
+    "description": "Nachricht, wenn keine Protokolle zum Teilen verfügbar sind"
+  },
+  "noLogsRecordedYet": "Noch keine Protokolle aufgezeichnet",
+  "@noLogsRecordedYet": {
+    "description": "Nachricht, wenn noch keine Protokolle aufgezeichnet wurden"
+  },
+  "invalidBoardingPassData": "Ungültige Bordkartendaten",
+  "@invalidBoardingPassData": {
+    "description": "Fehlermeldung für ungültige Bordkartendaten"
+  },
+  "invalidEventTicketData": "Ungültige Veranstaltungsticketdaten",
+  "@invalidEventTicketData": {
+    "description": "Fehlermeldung für ungültige Veranstaltungsticketdaten"
   }
 }
